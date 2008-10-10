@@ -3,16 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>IBFramework Version</key>
-	<string>676</string>
+	<string>629</string>
 	<key>IBLastKnownRelativeProjectPath</key>
-	<string>../FilmRedux.xcodeproj</string>
+	<string>../../FilmRedux.xcodeproj</string>
 	<key>IBOldestOS</key>
 	<integer>5</integer>
 	<key>IBOpenObjects</key>
-	<array>
-		<integer>45622</integer>
-		<integer>484</integer>
-	</array>
+	<array/>
 	<key>IBSystem Version</key>
 	<string>9F33</string>
 	<key>targetFramework</key>
