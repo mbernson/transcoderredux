@@ -524,13 +524,6 @@ on clicked theObject
 		close panel window "wannabox"
 	end if
 	
-	if thename is "wannabuy" then
-		if contents of text field "wannawhat" of window "wannabox" is "done" then
-			set contents of text field "wannawhat" of window "wannabox" to "buy"
-		end if
-		close panel window "wannabox"
-	end if
-	
 	if thename is "trimonoff" then
 		if contents of button "trimonoff" of tab view item "advancedoneoffbox" of tab view "advancedbox" of window "advanced" is true then
 			resetstartend(true)
