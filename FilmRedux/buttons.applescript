@@ -266,7 +266,7 @@ on clicked theObject
 				set advtab to it
 				if whichtab is 0 then
 					set current tab view item to tab view item "advancedvideobox"
-					set heightneeded to 585
+					set heightneeded to 460
 				end if
 				if whichtab is 1 then
 					set current tab view item to tab view item "advancedaudiobox"
@@ -274,13 +274,14 @@ on clicked theObject
 				end if
 				if whichtab is 2 then
 					set current tab view item to tab view item "advancedoneoffbox"
+					set heightneeded to 500
 				end if
 				if whichtab is 3 then
 					set current tab view item to tab view item "advancedplaygroundbox"
 				end if
 				if whichtab is 4 then
 					set current tab view item to tab view item "advancedinfobox"
-					set heightneeded to 490
+					set heightneeded to 475
 					tell window of theObject
 						set enabled of button "settingssave" to false
 						set enabled of button "settingsload" to false
