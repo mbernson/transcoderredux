@@ -581,7 +581,7 @@ on easyend()
 	end if
 	update window "FilmRedux"
 	
-	(* MODIFY FOR VISUALHUB 	if stitch is true then
+	(* MODIFY FOR FilmRedux 	if stitch is true then
 		set stitchstack to (stitchstack & quotedoutputfile)
 		set quoteddonefile to " "
 	else *)
