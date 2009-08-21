@@ -1,0 +1,20 @@
+#!/bin/sh
+
+##### Durfinder
+# This takes the crappy, useless H:M:S time that ffmpeg gives
+# and converts it to plain ol' seconds.
+## No it doesn't. That's a stupid thing to say.
+
+tmpdir=$1
+
+if [ "$2" = "mpeg" ]
+then
+	strings /tmp/rztemp/$tmpdir/reduxzero_mpegdur | grep time | /usr/bin/tail -1 | /usr/bin/awk -F time= '{print $2}' | /usr/bin/awk '{print $1}' | /usr/bin/awk -F . '{print $1}' > /tmp/rztemp/$tmpdir/reduxzero_duration
+else
+	if [ "$2" = "mov" ]
+	then
+		cat /tmp/rztemp/$tmpdir/reduxzero_movdur | awk -F ', ' '{print $5}' > /tmp/rztemp/$tmpdir/reduxzero_duration
+	else
+		cat /tmp/rztemp/$tmpdir/reduxzero_dur | grep Duration | cut -c 10- > /tmp/rztemp/$tmpdir/reduxzero_duration
+	fi
+fi

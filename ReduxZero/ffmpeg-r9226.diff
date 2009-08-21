@@ -1,0 +1,576 @@
+Index: ffmpeg.c
+===================================================================
+--- ffmpeg.c	(revision 9226)
++++ ffmpeg.c	(working copy)
+@@ -3686,15 +3686,15 @@
+ static void show_banner(void)
+ {
+     fprintf(stderr, "FFmpeg version " FFMPEG_VERSION ", Copyright (c) 2000-2007 Fabrice Bellard, et al.\n");
+-    fprintf(stderr, "  configuration: " FFMPEG_CONFIGURATION "\n");
+-    fprintf(stderr, "  libavutil version: " AV_STRINGIFY(LIBAVUTIL_VERSION) "\n");
+-    fprintf(stderr, "  libavcodec version: " AV_STRINGIFY(LIBAVCODEC_VERSION) "\n");
+-    fprintf(stderr, "  libavformat version: " AV_STRINGIFY(LIBAVFORMAT_VERSION) "\n");
+-    fprintf(stderr, "  built on " __DATE__ " " __TIME__);
+-#ifdef __GNUC__
+-    fprintf(stderr, ", gcc: " __VERSION__ "\n");
++//    fprintf(stderr, "  configuration: " FFMPEG_CONFIGURATION "\n");
++    fprintf(stderr, "  libavutil: " AV_STRINGIFY(LIBAVUTIL_VERSION));
++    fprintf(stderr, "  libavcodec: " AV_STRINGIFY(LIBAVCODEC_VERSION));
++    fprintf(stderr, "  libavformat: " AV_STRINGIFY(LIBAVFORMAT_VERSION) "\n");
++    fprintf(stderr, "  built: " __DATE__ " " __TIME__);
++#ifdef __i386__
++    fprintf(stderr, ", gcc: " __VERSION__ ", i386\n");
+ #else
+-    fprintf(stderr, ", using a non-gcc compiler\n");
++    fprintf(stderr, ", gcc: " __VERSION__ ", ppc\n");
+ #endif
+ }
+ 
+@@ -3751,7 +3751,7 @@
+     av_log_set_callback(log_callback_help);
+     show_banner();
+     printf("usage: ffmpeg [[infile options] -i infile]... {[outfile options] outfile}...\n"
+-           "Hyper fast Audio and Video encoder\n");
++           "Hyper fast Audio and Video encoder\nReduxZero 1.31 build. Do not combine with alcohol.\n");
+     printf("\n");
+     show_help_options(options, "Main options:\n",
+                       OPT_EXPERT | OPT_AUDIO | OPT_VIDEO, 0);
+@@ -3781,6 +3781,7 @@
+     if (ENABLE_SWSCALER)
+         av_opt_show(sws_opts, NULL);
+ 
++    printf("\nReduxZero 1.31 build. Do not combine with alcohol.\nMay cause drowsiness.\n");
+     exit(1);
+ }
+ 
+@@ -3813,7 +3814,7 @@
+ 
+     /* file converter / grab */
+     if (nb_output_files <= 0) {
+-        fprintf(stderr, "Must supply at least one output file\n");
++//        fprintf(stderr, "Must supply at least one output file\n");
+         exit(1);
+     }
+ 
+Index: libavcodec/i386/fft_sse.c
+===================================================================
+--- libavcodec/i386/fft_sse.c	(revision 9226)
++++ libavcodec/i386/fft_sse.c	(working copy)
+@@ -100,33 +100,20 @@
+             i = nloops*8;
+             asm volatile(
+                 "1: \n\t"
+-                "sub $32, %0 \n\t"
++                "sub $16, %0 \n\t"
+                 "movaps    (%2,%0), %%xmm1 \n\t"
+                 "movaps    (%1,%0), %%xmm0 \n\t"
+-                "movaps  16(%2,%0), %%xmm5 \n\t"
+-                "movaps  16(%1,%0), %%xmm4 \n\t"
+                 "movaps     %%xmm1, %%xmm2 \n\t"
+-                "movaps     %%xmm5, %%xmm6 \n\t"
+                 "shufps      $0xA0, %%xmm1, %%xmm1 \n\t"
+                 "shufps      $0xF5, %%xmm2, %%xmm2 \n\t"
+-                "shufps      $0xA0, %%xmm5, %%xmm5 \n\t"
+-                "shufps      $0xF5, %%xmm6, %%xmm6 \n\t"
+                 "mulps   (%3,%0,2), %%xmm1 \n\t" //  cre*re cim*re
+                 "mulps 16(%3,%0,2), %%xmm2 \n\t" // -cim*im cre*im
+-                "mulps 32(%3,%0,2), %%xmm5 \n\t" //  cre*re cim*re
+-                "mulps 48(%3,%0,2), %%xmm6 \n\t" // -cim*im cre*im
+                 "addps      %%xmm2, %%xmm1 \n\t"
+-                "addps      %%xmm6, %%xmm5 \n\t"
+                 "movaps     %%xmm0, %%xmm3 \n\t"
+-                "movaps     %%xmm4, %%xmm7 \n\t"
+                 "addps      %%xmm1, %%xmm0 \n\t"
+                 "subps      %%xmm1, %%xmm3 \n\t"
+-                "addps      %%xmm5, %%xmm4 \n\t"
+-                "subps      %%xmm5, %%xmm7 \n\t"
+                 "movaps     %%xmm0, (%1,%0) \n\t"
+                 "movaps     %%xmm3, (%2,%0) \n\t"
+-                "movaps     %%xmm4, 16(%1,%0) \n\t"
+-                "movaps     %%xmm7, 16(%2,%0) \n\t"
+                 "jg 1b \n\t"
+                 :"+r"(i)
+                 :"r"(p), "r"(p + nloops), "r"(cptr)
+@@ -154,106 +141,67 @@
+     n4 = n >> 2;
+     n8 = n >> 3;
+ 
+-#ifdef ARCH_X86_64
+-    asm volatile ("movaps %0, %%xmm8\n\t"::"m"(*p1m1p1m1));
+-#define P1M1P1M1 "%%xmm8"
+-#else
+-#define P1M1P1M1 "%4"
+-#endif
++    asm volatile ("movaps %0, %%xmm7\n\t"::"m"(*p1m1p1m1));
+ 
+     /* pre rotation */
+     in1 = input;
+     in2 = input + n2 - 4;
+ 
+-    /* Complex multiplication */
+-    for (k = 0; k < n4; k += 4) {
++    /* Complex multiplication
++       Two complex products per iteration, we could have 4 with 8 xmm
++       registers, 8 with 16 xmm registers.
++       Maybe we should unroll more.
++    */
++    for (k = 0; k < n4; k += 2) {
+         asm volatile (
+             "movaps          %0, %%xmm0 \n\t"   // xmm0 = r0 X  r1 X : in2
+             "movaps          %1, %%xmm3 \n\t"   // xmm3 = X  i1 X  i0: in1
+-            "movaps      -16+%0, %%xmm4 \n\t"   // xmm4 = r0 X  r1 X : in2
+-            "movaps       16+%1, %%xmm7 \n\t"   // xmm7 = X  i1 X  i0: in1
+             "movlps          %2, %%xmm1 \n\t"   // xmm1 = X  X  R1 R0: tcos
+             "movlps          %3, %%xmm2 \n\t"   // xmm2 = X  X  I1 I0: tsin
+-            "movlps        8+%2, %%xmm5 \n\t"   // xmm5 = X  X  R1 R0: tcos
+-            "movlps        8+%3, %%xmm6 \n\t"   // xmm6 = X  X  I1 I0: tsin
+             "shufps $95, %%xmm0, %%xmm0 \n\t"   // xmm0 = r1 r1 r0 r0
+             "shufps $160,%%xmm3, %%xmm3 \n\t"   // xmm3 = i1 i1 i0 i0
+-            "shufps $95, %%xmm4, %%xmm4 \n\t"   // xmm4 = r1 r1 r0 r0
+-            "shufps $160,%%xmm7, %%xmm7 \n\t"   // xmm7 = i1 i1 i0 i0
+             "unpcklps    %%xmm2, %%xmm1 \n\t"   // xmm1 = I1 R1 I0 R0
+-            "unpcklps    %%xmm6, %%xmm5 \n\t"   // xmm5 = I1 R1 I0 R0
+             "movaps      %%xmm1, %%xmm2 \n\t"   // xmm2 = I1 R1 I0 R0
+-            "movaps      %%xmm5, %%xmm6 \n\t"   // xmm6 = I1 R1 I0 R0
+-            "xorps   "P1M1P1M1", %%xmm2 \n\t"   // xmm2 = -I1 R1 -I0 R0
+-            "xorps   "P1M1P1M1", %%xmm6 \n\t"   // xmm6 = -I1 R1 -I0 R0
++            "xorps       %%xmm7, %%xmm2 \n\t"   // xmm2 = -I1 R1 -I0 R0
+             "mulps       %%xmm1, %%xmm0 \n\t"   // xmm0 = rI rR rI rR
+-            "mulps       %%xmm5, %%xmm4 \n\t"   // xmm4 = rI rR rI rR
+             "shufps $177,%%xmm2, %%xmm2 \n\t"   // xmm2 = R1 -I1 R0 -I0
+-            "shufps $177,%%xmm6, %%xmm6 \n\t"   // xmm6 = R1 -I1 R0 -I0
+             "mulps       %%xmm2, %%xmm3 \n\t"   // xmm3 = Ri -Ii Ri -Ii
+-            "mulps       %%xmm6, %%xmm7 \n\t"   // xmm7 = Ri -Ii Ri -Ii
+             "addps       %%xmm3, %%xmm0 \n\t"   // xmm0 = result
+-            "addps       %%xmm7, %%xmm4 \n\t"   // xmm4 = result
+             ::"m"(in2[-2*k]), "m"(in1[2*k]),
+               "m"(tcos[k]), "m"(tsin[k])
+-#ifndef ARCH_X86_64
+-              ,"m"(*p1m1p1m1)
+-#endif
+         );
+         /* Should be in the same block, hack for gcc2.95 & gcc3 */
+         asm (
+             "movlps      %%xmm0, %0     \n\t"
+             "morzps      %%xmm0, %1     \n\t"
+-            "movlps      %%xmm4, %2     \n\t"
+-            "morzps      %%xmm4, %3     \n\t"
+-            :"=m"(z[revtab[k]]), "=m"(z[revtab[k + 1]]),
+-             "=m"(z[revtab[k + 2]]), "=m"(z[revtab[k + 3]])
++            :"=m"(z[revtab[k]]), "=m"(z[revtab[k + 1]])
+         );
+     }
+ 
+     ff_fft_calc_sse(&s->fft, z);
+ 
+-#ifndef ARCH_X86_64
+-#undef P1M1P1M1
+-#define P1M1P1M1 "%3"
+-#endif
++    /* Not currently needed, added for safety */
++    asm volatile ("movaps %0, %%xmm7\n\t"::"m"(*p1m1p1m1));
+ 
+     /* post rotation + reordering */
+-    for (k = 0; k < n4; k += 4) {
++    for (k = 0; k < n4; k += 2) {
+         asm (
+             "movaps          %0, %%xmm0 \n\t"   // xmm0 = i1 r1 i0 r0: z
+-            "movaps       16+%0, %%xmm4 \n\t"   // xmm4 = i1 r1 i0 r0: z
+             "movlps          %1, %%xmm1 \n\t"   // xmm1 = X  X  R1 R0: tcos
+-            "movlps        8+%1, %%xmm5 \n\t"   // xmm5 = X  X  R1 R0: tcos
+             "movaps      %%xmm0, %%xmm3 \n\t"   // xmm3 = i1 r1 i0 r0
+-            "movaps      %%xmm4, %%xmm7 \n\t"   // xmm7 = i1 r1 i0 r0
+             "movlps          %2, %%xmm2 \n\t"   // xmm2 = X  X  I1 I0: tsin
+-            "movlps        8+%2, %%xmm6 \n\t"   // xmm6 = X  X  I1 I0: tsin
+             "shufps $160,%%xmm0, %%xmm0 \n\t"   // xmm0 = r1 r1 r0 r0
+             "shufps $245,%%xmm3, %%xmm3 \n\t"   // xmm3 = i1 i1 i0 i0
+-            "shufps $160,%%xmm4, %%xmm4 \n\t"   // xmm4 = r1 r1 r0 r0
+-            "shufps $245,%%xmm7, %%xmm7 \n\t"   // xmm7 = i1 i1 i0 i0
+             "unpcklps    %%xmm2, %%xmm1 \n\t"   // xmm1 = I1 R1 I0 R0
+-            "unpcklps    %%xmm6, %%xmm5 \n\t"   // xmm5 = I1 R1 I0 R0
+             "movaps      %%xmm1, %%xmm2 \n\t"   // xmm2 = I1 R1 I0 R0
+-            "movaps      %%xmm5, %%xmm6 \n\t"   // xmm6 = I1 R1 I0 R0
+-            "xorps   "P1M1P1M1", %%xmm2 \n\t"   // xmm2 = -I1 R1 -I0 R0
++            "xorps       %%xmm7, %%xmm2 \n\t"   // xmm2 = -I1 R1 -I0 R0
+             "mulps       %%xmm1, %%xmm0 \n\t"   // xmm0 = rI rR rI rR
+-            "xorps   "P1M1P1M1", %%xmm6 \n\t"   // xmm6 = -I1 R1 -I0 R0
+-            "mulps       %%xmm5, %%xmm4 \n\t"   // xmm4 = rI rR rI rR
+             "shufps $177,%%xmm2, %%xmm2 \n\t"   // xmm2 = R1 -I1 R0 -I0
+-            "shufps $177,%%xmm6, %%xmm6 \n\t"   // xmm6 = R1 -I1 R0 -I0
+             "mulps       %%xmm2, %%xmm3 \n\t"   // xmm3 = Ri -Ii Ri -Ii
+-            "mulps       %%xmm6, %%xmm7 \n\t"   // xmm7 = Ri -Ii Ri -Ii
+             "addps       %%xmm3, %%xmm0 \n\t"   // xmm0 = result
+-            "addps       %%xmm7, %%xmm4 \n\t"   // xmm4 = result
+             "movaps      %%xmm0, %0     \n\t"
+-            "movaps      %%xmm4, 16+%0  \n\t"
+             :"+m"(z[k])
+             :"m"(tcos[k]), "m"(tsin[k])
+-#ifndef ARCH_X86_64
+-             ,"m"(*p1m1p1m1)
+-#endif
+         );
+     }
+ 
+@@ -295,5 +243,4 @@
+         :"r"(output), "r"(output+n2), "r"(output+n), "r"(z+n8)
+         :"memory"
+     );
+-}
+-
++}
+\ No newline at end of file
+Index: libavcodec/utils.c
+===================================================================
+--- libavcodec/utils.c	(revision 9226)
++++ libavcodec/utils.c	(working copy)
+@@ -468,7 +468,7 @@
+ {"delay", NULL, OFFSET(delay), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX},
+ {"qcomp", "video quantizer scale compression (VBR)", OFFSET(qcompress), FF_OPT_TYPE_FLOAT, 0.5, FLT_MIN, FLT_MAX, V|E},
+ {"qblur", "video quantizer scale blur (VBR)", OFFSET(qblur), FF_OPT_TYPE_FLOAT, 0.5, FLT_MIN, FLT_MAX, V|E},
+-{"qmin", "min video quantizer scale (VBR)", OFFSET(qmin), FF_OPT_TYPE_INT, 2, 1, 51, V|E},
++{"qmin", "min video quantizer scale (VBR)", OFFSET(qmin), FF_OPT_TYPE_INT, 1, 1, 51, V|E},
+ {"qmax", "max video quantizer scale (VBR)", OFFSET(qmax), FF_OPT_TYPE_INT, 31, 1, 51, V|E},
+ {"qdiff", "max difference between the quantizer scale (VBR)", OFFSET(max_qdiff), FF_OPT_TYPE_INT, 3, INT_MIN, INT_MAX, V|E},
+ {"bf", "use 'frames' B frames", OFFSET(max_b_frames), FF_OPT_TYPE_INT, DEFAULT, 0, FF_MAX_B_FRAMES, V|E},
+@@ -650,7 +650,7 @@
+ {"rd", "use best rate distortion", 0, FF_OPT_TYPE_CONST, FF_MB_DECISION_RD, INT_MIN, INT_MAX, V|E, "mbd"},
+ {"stream_codec_tag", NULL, OFFSET(stream_codec_tag), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX},
+ {"sc_threshold", "scene change threshold", OFFSET(scenechange_threshold), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+-{"lmin", "min lagrange factor (VBR)", OFFSET(lmin), FF_OPT_TYPE_INT,  2*FF_QP2LAMBDA, 0, INT_MAX, V|E},
++{"lmin", "min lagrange factor (VBR)", OFFSET(lmin), FF_OPT_TYPE_INT,  1*FF_QP2LAMBDA, 0, INT_MAX, V|E},
+ {"lmax", "max lagrange factor (VBR)", OFFSET(lmax), FF_OPT_TYPE_INT, 31*FF_QP2LAMBDA, 0, INT_MAX, V|E},
+ {"nr", "noise reduction", OFFSET(noise_reduction), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+ {"rc_init_occupancy", "number of bits which should be loaded into the rc buffer before decoding starts", OFFSET(rc_initial_buffer_occupancy), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+@@ -1082,21 +1082,23 @@
+     switch(enc->codec_type) {
+     case CODEC_TYPE_VIDEO:
+         snprintf(buf, buf_size,
+-                 "Video: %s%s",
+-                 codec_name, enc->mb_decision ? " (hq)" : "");
++                 ",Video,%s%s",
++                 codec_name, enc->mb_decision ? "" : "");
+         if (enc->pix_fmt != PIX_FMT_NONE) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %s",
++                     ",%s",
+                      avcodec_get_pix_fmt_name(enc->pix_fmt));
+         }
++            else
++            snprintf(NULL, NULL, ",");
+         if (enc->width) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %dx%d",
++                     ",%d,%d",
+                      enc->width, enc->height);
+             if(av_log_level >= AV_LOG_DEBUG){
+                 int g= ff_gcd(enc->time_base.num, enc->time_base.den);
+                 snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %d/%d",
++                     ",%d,%d",
+                      enc->time_base.num/g, enc->time_base.den/g);
+             }
+         }
+@@ -1108,17 +1110,17 @@
+         break;
+     case CODEC_TYPE_AUDIO:
+         snprintf(buf, buf_size,
+-                 "Audio: %s",
++                 ",Audio,%s",
+                  codec_name);
+         switch (enc->channels) {
+             case 1:
+-                strcpy(channels_str, "mono");
++                strcpy(channels_str, "1");
+                 break;
+             case 2:
+-                strcpy(channels_str, "stereo");
++                strcpy(channels_str, "2");
+                 break;
+             case 6:
+-                strcpy(channels_str, "5:1");
++                strcpy(channels_str, "5.1");
+                 break;
+             default:
+                 snprintf(channels_str, sizeof(channels_str), "%d channels", enc->channels);
+@@ -1126,7 +1128,7 @@
+         }
+         if (enc->sample_rate) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %d Hz, %s",
++                     ",%d,%s",
+                      enc->sample_rate,
+                      channels_str);
+         }
+@@ -1162,6 +1164,10 @@
+             bitrate = enc->bit_rate;
+             break;
+         }
++    if (bitrate != 0) {
++        snprintf(buf + strlen(buf), buf_size - strlen(buf),
++                 ",%d", bitrate / 1000);
++    }
+         break;
+     case CODEC_TYPE_DATA:
+         snprintf(buf, buf_size, "Data: %s", codec_name);
+@@ -1183,10 +1189,10 @@
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                      ", pass 2");
+     }
+-    if (bitrate != 0) {
+-        snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                 ", %d kb/s", bitrate / 1000);
+-    }
++//    if (bitrate != 0) {
++//        snprintf(buf + strlen(buf), buf_size - strlen(buf),
++//                 ", %d kb/s", bitrate / 1000);
++//    }
+ }
+ 
+ unsigned avcodec_version( void )
+Index: libavformat/utils.c
+===================================================================
+--- libavformat/utils.c	(revision 9226)
++++ libavformat/utils.c	(working copy)
+@@ -2421,33 +2421,34 @@
+             is_output ? ic->oformat->name : ic->iformat->name,
+             is_output ? "to" : "from", url);
+     if (!is_output) {
+-        av_log(NULL, AV_LOG_INFO, "  Duration: ");
++        av_log(NULL, AV_LOG_INFO, "Duration-");
+         if (ic->duration != AV_NOPTS_VALUE) {
+             int hours, mins, secs, us;
+             secs = ic->duration / AV_TIME_BASE;
+             us = ic->duration % AV_TIME_BASE;
+-            mins = secs / 60;
+-            secs %= 60;
+-            hours = mins / 60;
+-            mins %= 60;
+-            av_log(NULL, AV_LOG_INFO, "%02d:%02d:%02d.%01d", hours, mins, secs,
+-                   (10 * us) / AV_TIME_BASE);
++//            mins = secs / 60;
++//            secs %= 60;
++//            hours = mins / 60;
++//            mins %= 60;
++//            av_log(NULL, AV_LOG_INFO, "%02d:%02d:%02d.%01d", hours, mins, secs,
++//                   (10 * us) / AV_TIME_BASE);
++            av_log(NULL, AV_LOG_INFO, "%02d\n", secs);
+         } else {
+-            av_log(NULL, AV_LOG_INFO, "N/A");
++            av_log(NULL, AV_LOG_INFO, "NA\n");
+         }
+         if (ic->start_time != AV_NOPTS_VALUE) {
+             int secs, us;
+-            av_log(NULL, AV_LOG_INFO, ", start: ");
++            av_log(NULL, AV_LOG_INFO, "start-");
+             secs = ic->start_time / AV_TIME_BASE;
+             us = ic->start_time % AV_TIME_BASE;
+-            av_log(NULL, AV_LOG_INFO, "%d.%06d",
++            av_log(NULL, AV_LOG_INFO, "%d.%06d\n",
+                    secs, (int)av_rescale(us, 1000000, AV_TIME_BASE));
+         }
+-        av_log(NULL, AV_LOG_INFO, ", bitrate: ");
++        av_log(NULL, AV_LOG_INFO, "bitrate-");
+         if (ic->bit_rate) {
+-            av_log(NULL, AV_LOG_INFO,"%d kb/s", ic->bit_rate / 1000);
++            av_log(NULL, AV_LOG_INFO,"%d\n", ic->bit_rate / 1000);
+         } else {
+-            av_log(NULL, AV_LOG_INFO, "N/A");
++            av_log(NULL, AV_LOG_INFO, "NA\n");
+         }
+         av_log(NULL, AV_LOG_INFO, "\n");
+     }
+@@ -2455,28 +2456,32 @@
+         AVStream *st = ic->streams[i];
+         int g= ff_gcd(st->time_base.num, st->time_base.den);
+         avcodec_string(buf, sizeof(buf), st->codec, is_output);
+-        av_log(NULL, AV_LOG_INFO, "  Stream #%d.%d", index, i);
++        av_log(NULL, AV_LOG_INFO, "%d.%d,", index, i);
+         /* the pid is an important information, so we display it */
+         /* XXX: add a generic system */
+         if (is_output)
+             flags = ic->oformat->flags;
+         else
+             flags = ic->iformat->flags;
+-        if (flags & AVFMT_SHOW_IDS) {
+-            av_log(NULL, AV_LOG_INFO, "[0x%x]", st->id);
+-        }
+-        if (strlen(st->language) > 0) {
+-            av_log(NULL, AV_LOG_INFO, "(%s)", st->language);
+-        }
+-        av_log(NULL, AV_LOG_DEBUG, ", %d/%d", st->time_base.num/g, st->time_base.den/g);
+-        av_log(NULL, AV_LOG_INFO, ": %s", buf);
++        if (flags & AVFMT_SHOW_IDS)
++            av_log(NULL, AV_LOG_INFO, ",dvd%x", st->id);
++        else
++            av_log(NULL, AV_LOG_INFO, ",");
++            
++        if (strlen(st->language) > 0)
++            av_log(NULL, AV_LOG_INFO, ",(%s)", st->language);
++        else
++            av_log(NULL, AV_LOG_INFO, ",");
++
++        av_log(NULL, AV_LOG_DEBUG, ",%d/%d", st->time_base.num/g, st->time_base.den/g);
++        av_log(NULL, AV_LOG_INFO, ",%s", buf);
+         if(st->codec->codec_type == CODEC_TYPE_VIDEO){
+             if(st->r_frame_rate.den && st->r_frame_rate.num)
+-                av_log(NULL, AV_LOG_INFO, ", %5.2f fps(r)", av_q2d(st->r_frame_rate));
++                av_log(NULL, AV_LOG_INFO, ",%5.2f", av_q2d(st->r_frame_rate));
+ /*            else if(st->time_base.den && st->time_base.num)
+                 av_log(NULL, AV_LOG_INFO, ", %5.2f fps(m)", 1/av_q2d(st->time_base));*/
+             else
+-                av_log(NULL, AV_LOG_INFO, ", %5.2f fps(c)", 1/av_q2d(st->codec->time_base));
++                av_log(NULL, AV_LOG_INFO, ",%5.2f", 1/av_q2d(st->codec->time_base));
+         }
+         av_log(NULL, AV_LOG_INFO, "\n");
+     }
+Index: libavformat/movenc.c
+===================================================================
+--- libavformat/movenc.c	(revision 9226)
++++ libavformat/movenc.c	(working copy)
+@@ -36,6 +36,7 @@
+ #define MODE_PSP 3 // example working PSP command line:
+ // ffmpeg -i testinput.avi  -f psp -r 14.985 -s 320x240 -b 768 -ar 24000 -ab 32 M4V00001.MP4
+ #define MODE_3G2 4
++#define MODE_ANANTSCDVD 5
+ 
+ typedef struct MOVIentry {
+     unsigned int flags, size;
+@@ -53,6 +54,7 @@
+     long        timescale;
+     long        time;
+     int64_t     trackDuration;
++    long        sampleDuration;
+     long        sampleCount;
+     long        sampleSize;
+     int         hasKeyframes;
+@@ -621,8 +623,20 @@
+         mov_write_d263_tag(pb);
+     else if(track->enc->codec_id == CODEC_ID_SVQ3)
+         mov_write_svq3_tag(pb);
+-    else if(track->enc->codec_id == CODEC_ID_H264)
++    else if(track->enc->codec_id == CODEC_ID_H264) {
+         mov_write_avcc_tag(pb, track);
++        if (track->mode != MODE_PSP)
++          if (track->enc->width > 320)
++            if (track->enc->width <= 640) {
++			put_be32(pb, 0x1C); /* size ... reports as 28 in mp4box! */
++			put_tag(pb, "uuid");
++			put_be32(pb, 0x6B6840F2);
++			put_be32(pb, 0x5F244FC5);
++			put_be32(pb, 0xBA39A51B);
++			put_be32(pb, 0xCF0323F3);
++			put_be32(pb, 0x0000);
++	}
++}
+ 
+     return updateSize (pb, pos);
+ }
+@@ -898,6 +912,9 @@
+     put_be16(pb, 0); /* reserved */
+ 
+     /* Matrix structure */
++    if (track->mode == MODE_ANANTSCDVD)
++    put_be32(pb, 0x00015555); /* reserved */
++    else
+     put_be32(pb, 0x00010000); /* reserved */
+     put_be32(pb, 0x0); /* reserved */
+     put_be32(pb, 0x0); /* reserved */
+@@ -911,6 +928,7 @@
+     /* Track width and height, for visual only */
+     if(track->enc->codec_type == CODEC_TYPE_VIDEO) {
+         double sample_aspect_ratio = av_q2d(track->enc->sample_aspect_ratio);
++        sample_aspect_ratio = 1;
+         if( !sample_aspect_ratio ) sample_aspect_ratio = 1;
+         put_be32(pb, sample_aspect_ratio * track->enc->width*0x10000);
+         put_be32(pb, track->enc->height*0x10000);
+@@ -1369,6 +1387,8 @@
+         put_tag(pb, "MSNV");
+     else if ( mov->mode == MODE_MP4 )
+         put_tag(pb, "isom");
++    else if ( mov->mode == MODE_ANANTSCDVD )
++        put_tag(pb, "isom");
+     else
+         put_tag(pb, "qt  ");
+ 
+@@ -1382,6 +1402,8 @@
+         put_tag(pb, "MSNV");
+     else if ( mov->mode == MODE_MP4 )
+         put_tag(pb, "mp41");
++    else if ( mov->mode == MODE_ANANTSCDVD )
++        put_tag(pb, "mp41");
+     else
+         put_tag(pb, "qt  ");
+ }
+@@ -1466,6 +1488,7 @@
+         else if (!strcmp("3g2", s->oformat->name)) mov->mode = MODE_3G2;
+         else if (!strcmp("mov", s->oformat->name)) mov->mode = MODE_MOV;
+         else if (!strcmp("psp", s->oformat->name)) mov->mode = MODE_PSP;
++        else if (!strcmp("anantscdvd", s->oformat->name)) mov->mode = MODE_ANANTSCDVD;
+ 
+         mov_write_ftyp_tag(pb,s);
+         if ( mov->mode == MODE_PSP ) {
+@@ -1487,14 +1510,17 @@
+         if(st->codec->codec_type == CODEC_TYPE_VIDEO){
+             track->tag = mov_find_video_codec_tag(s, track);
+             track->timescale = st->codec->time_base.den;
++            track->sampleDuration = st->codec->time_base.num;
+             av_set_pts_info(st, 64, 1, st->codec->time_base.den);
+         }else if(st->codec->codec_type == CODEC_TYPE_AUDIO){
+             track->tag = mov_find_audio_codec_tag(s, track);
+             track->timescale = st->codec->sample_rate;
++            track->sampleDuration = st->codec->frame_size;
+             av_set_pts_info(st, 64, 1, st->codec->sample_rate);
+             if(!st->codec->frame_size){
+                 av_log(s, AV_LOG_ERROR, "track %d: codec frame size is not set\n", i);
+-                return -1;
++                track->audio_vbr = 1;
++            //    return -1;
+             }else if(st->codec->frame_size > 1){ /* assume compressed audio */
+                 track->audio_vbr = 1;
+             }else{
+@@ -1640,6 +1666,21 @@
+     .flags = AVFMT_GLOBALHEADER,
+ };
+ #endif
++#ifdef CONFIG_ANANTSCDVD_MUXER
++AVOutputFormat anantscdvd_muxer = {
++    "anantscdvd",
++    "mp4 format",
++    NULL,
++    "mp4,m4a",
++    sizeof(MOVContext),
++    CODEC_ID_AAC,
++    CODEC_ID_MPEG4,
++    mov_write_header,
++    mov_write_packet,
++    mov_write_trailer,
++    .flags = AVFMT_GLOBALHEADER,
++};
++#endif
+ #ifdef CONFIG_TGP_MUXER
+ AVOutputFormat tgp_muxer = {
+     "3gp",
+Index: libavformat/allformats.c
+===================================================================
+--- libavformat/allformats.c	(revision 9226)
++++ libavformat/allformats.c	(working copy)
+@@ -129,6 +129,7 @@
+     REGISTER_MUXDEMUX(PCM_U16LE, pcm_u16le);
+     REGISTER_MUXDEMUX(PCM_U8,    pcm_u8);
+     REGISTER_MUXER   (PSP, psp);
++    REGISTER_MUXER   (ANANTSCDVD, anantscdvd);
+     REGISTER_MUXDEMUX(RAWVIDEO, rawvideo);
+     REGISTER_MUXDEMUX(RM, rm);
+     REGISTER_MUXDEMUX(ROQ, roq);
+Index: libavformat/allformats.h
+===================================================================
+--- libavformat/allformats.h	(revision 9226)
++++ libavformat/allformats.h	(working copy)
+@@ -167,6 +167,7 @@
+ extern AVOutputFormat pcm_u16le_muxer;
+ extern AVOutputFormat pcm_u8_muxer;
+ extern AVOutputFormat psp_muxer;
++extern AVOutputFormat anantscdvd_muxer;
+ extern AVOutputFormat rawvideo_muxer;
+ extern AVOutputFormat rm_muxer;
+ extern AVOutputFormat roq_muxer;

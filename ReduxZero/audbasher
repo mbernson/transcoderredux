@@ -1,0 +1,223 @@
+#!/bin/sh
+
+###################
+# AudBasher
+# Copyright 2006
+# It bashes auds. What more do you want from me?
+###################
+
+type=$1
+hz=$2
+hzforce=$3
+chanword=$4
+chanforce=$5
+bit=$6
+bitforce=$7
+
+## Just in case something sucks
+endhz=44100
+chanbit=64
+endchan=2
+
+## Lowering Expectations
+## Keep to the normals
+if [ $hz -gt 44100 ]
+	then
+	endhz=48000
+	chanbit=64
+fi
+if [ $hz -le 44100 ]
+	then
+	endhz=44100
+	chanbit=64
+fi
+if [ $hz -le 32000 ]
+	then
+	endhz=32000
+	chanbit=48
+fi
+if [ $hz -le 22050 ]
+	then
+	endhz=22050
+	chanbit=32
+fi
+if [ $hz -le 11025 ]
+	then
+	endhz=11025
+	chanbit=16
+fi
+
+## Get channels
+	endchan=$chanword
+
+	if [ $chanword = "5.1" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "6 channels" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "5 channels" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "4 channels" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "3 channels" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "6" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "5" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "4" ]
+		then
+		endchan=2
+	fi
+	if [ $chanword = "3" ]
+		then
+		endchan=2
+	fi
+
+## Format-specifics
+if [ $type = "tcpmp" ]
+	then
+	endhz=32000
+	chanbit=48
+fi
+
+if [ $type = "mpegbox" ]
+	then
+	if [ "$endhz" == "11025" ]
+		then
+		endhz=22050
+		chanbit=32
+	fi		
+fi
+
+if [ $type = "pspbox" ]
+	then
+	endhz=24000
+	chanbit=32
+fi
+
+if [ $type = "pspavcbox" ]
+	then
+	endhz=48000
+	chanbit=64
+fi
+
+if [ $type = "dvdbox" ]
+	then
+	endhz=48000
+	chanbit=80
+fi
+
+if [ $type = "dvbox" ]
+	then
+	endhz=48000
+	endchan=2
+fi
+
+if [ $type = "vcd" ]
+	then
+	endhz=44100
+	endchan=2
+	chanbit=112
+fi
+
+#if [ $type = "ipodbox" ]
+#	then
+#	endhz=44100
+#	endchan=2
+#	chanbit=64
+#fi
+
+if [ $type = "svcd" ]
+	then
+	endhz=44100
+	endchan=2
+	chanbit=112
+fi
+
+if [ $type = "flashbox" ]
+	then
+	if [ $endhz = 48000 ]
+	then
+		endhz=44100
+	fi
+	if [ $endhz = 32000 ]
+	then
+		endhz=22050
+	fi
+fi
+
+if [ $type = "tinyish" ]
+	then
+	endhz=22050
+	endchan=1
+	chanbit=32
+fi
+
+if [ $type = "tiny" ]
+	then
+	endhz=11025
+	endchan=1
+	chanbit=16
+fi
+
+if [ $type = "teenytiny" ]
+	then
+	endhz=8000
+	endchan=1
+fi
+
+if [ $hzforce = "force" ]
+	then
+	endhz=$hz
+	if [ $endhz -gt 48000 ]
+		then
+		chanbit=64
+	fi
+	if [ $endhz -le 44100 ]
+		then
+		chanbit=64
+	fi
+	if [ $endhz -le 32000 ]
+		then
+		chanbit=48
+	fi
+	if [ $endhz -le 22050 ]
+		then
+		chanbit=32
+	fi
+	if [ $endhz -le 11025 ]
+		then
+		chanbit=16
+	fi
+fi
+
+
+
+if [ $bitforce = "force" ]
+	then
+	chanbit=$bit
+	#endbit=`echo "$chanbit / $endchan" | bc`
+	endbit=$chanbit
+	else
+	endbit=`echo "$chanbit * $endchan" | bc`
+fi
+
+
+
+
+echo " -ar $endhz -ac $endchan -ab $endbit"
+

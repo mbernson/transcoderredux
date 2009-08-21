@@ -1,0 +1,726 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAppleScriptBuildPhase section */
+		257572C4072881A4000BE9CA /* AppleScript */ = {
+			isa = PBXAppleScriptBuildPhase;
+			buildActionMask = 2147483647;
+			contextName = "";
+			files = (
+				394C07410920E72600E1F837 /* tabledrop.applescript in AppleScript */,
+				39AD7D49092103DC00BC0256 /* main.applescript in AppleScript */,
+				3971152F0931004E00C6C6FA /* buttons.applescript in AppleScript */,
+				392BC68709D761A5008A3186 /* ipod.applescript in AppleScript */,
+				392BC69409D76294008A3186 /* snippets.applescript in AppleScript */,
+				394C418409DF5516009AC1F1 /* dv.applescript in AppleScript */,
+				3942EF8D09E2C0D000DE4F32 /* preview.applescript in AppleScript */,
+				397DFE7F09FBFEC1009DC402 /* xgrid.applescript in AppleScript */,
+				39A149780A03112D005EA2A1 /* mp4.applescript in AppleScript */,
+				39A174F20A066AB1002584E3 /* avi.applescript in AppleScript */,
+				39DE8A150A06A5D6009D8EE7 /* wmv.applescript in AppleScript */,
+				39DE8A540A06AB02009D8EE7 /* flash.applescript in AppleScript */,
+				3956C7110A08453D00FE63A7 /* psp.applescript in AppleScript */,
+				393CE78E0A0901AD000D8774 /* mpeg.applescript in AppleScript */,
+				392C4B3F0A0C27FF00DABF40 /* dvd.applescript in AppleScript */,
+				397201520B656F5000B85906 /* vidinfo.applescript in AppleScript */,
+			);
+			isSharedContext = 0;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXAppleScriptBuildPhase section */
+
+/* Begin PBXBuildFile section */
+		257572CA072881A4000BE9CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		257572CC072881A4000BE9CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		257572CD072881A4000BE9CA /* AppleScriptKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA206CF1015C4E2903C91932 /* AppleScriptKit.framework */; };
+		390058380B864B40005E28F5 /* dvdaudio.nib in Resources */ = {isa = PBXBuildFile; fileRef = 390058370B864B40005E28F5 /* dvdaudio.nib */; };
+		3900584C0B864B80005E28F5 /* advloading.nib in Resources */ = {isa = PBXBuildFile; fileRef = 39BDBE730B4977450048EC73 /* advloading.nib */; };
+		390058550B864BD1005E28F5 /* vidinfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = 390058540B864BD1005E28F5 /* vidinfo.nib */; };
+		39013D670B24D4E200BC37EC /* Xgrid.png in Resources */ = {isa = PBXBuildFile; fileRef = 39013D660B24D4E200BC37EC /* Xgrid.png */; };
+		3901CA9A0AFE7C9A00D3C075 /* lsdvd in Resources */ = {isa = PBXBuildFile; fileRef = 3901CA990AFE7C9A00D3C075 /* lsdvd */; };
+		390235D30914645C0008FFB6 /* Credits.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 390235D20914645C0008FFB6 /* Credits.rtfd */; };
+		390A79680B6AA59A00C4C2DD /* avimerge in Resources */ = {isa = PBXBuildFile; fileRef = 390A79670B6AA59A00C4C2DD /* avimerge */; };
+		390F9F6F0A115E610058CD69 /* mkisofs in Resources */ = {isa = PBXBuildFile; fileRef = 390F9F6E0A115E610058CD69 /* mkisofs */; };
+		391BFB050BD5390C00A60DD5 /* flvtool2.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 391BFB040BD5390C00A60DD5 /* flvtool2.bundle */; };
+		391C950709E33159005CA5F2 /* com.apple.xgrid.controller.plist in Resources */ = {isa = PBXBuildFile; fileRef = 391C950609E33159005CA5F2 /* com.apple.xgrid.controller.plist */; };
+		391C951309E33447005CA5F2 /* rzweb.conf in Resources */ = {isa = PBXBuildFile; fileRef = 391C951209E33447005CA5F2 /* rzweb.conf */; };
+		392BC68709D761A5008A3186 /* ipod.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 392BC68609D761A5008A3186 /* ipod.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		392BC69409D76294008A3186 /* snippets.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 392BC69309D76294008A3186 /* snippets.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		392C4B3F0A0C27FF00DABF40 /* dvd.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 392C4B3E0A0C27FF00DABF40 /* dvd.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		392FB23E0B78317900A62B33 /* flattercmd in Resources */ = {isa = PBXBuildFile; fileRef = 392FB23D0B78317900A62B33 /* flattercmd */; };
+		3939615E099B91BE0084C230 /* movtowav in Resources */ = {isa = PBXBuildFile; fileRef = 3939615D099B91BE0084C230 /* movtowav */; };
+		393CE78E0A0901AD000D8774 /* mpeg.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 393CE78D0A0901AD000D8774 /* mpeg.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		393CE8180A09359D000D8774 /* dvdauthor in Resources */ = {isa = PBXBuildFile; fileRef = 393CE8170A09359D000D8774 /* dvdauthor */; };
+		393E46D909168F9500EDAF1B /* fpsfinder in Resources */ = {isa = PBXBuildFile; fileRef = 393E46D809168F9500EDAF1B /* fpsfinder */; };
+		39410119092D5F27001B4F43 /* movtoy4m in Resources */ = {isa = PBXBuildFile; fileRef = 39410117092D5F27001B4F43 /* movtoy4m */; };
+		3941017E092D7BC5001B4F43 /* resizer in Resources */ = {isa = PBXBuildFile; fileRef = 3941017D092D7BC5001B4F43 /* resizer */; };
+		39419B410B8E03BC00343C58 /* AtomicParsley in Resources */ = {isa = PBXBuildFile; fileRef = 39419B400B8E03BC00343C58 /* AtomicParsley */; };
+		3942EF8D09E2C0D000DE4F32 /* preview.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 3942EF8C09E2C0D000DE4F32 /* preview.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		394C07410920E72600E1F837 /* tabledrop.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 394C07400920E72600E1F837 /* tabledrop.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		394C400A09DEDC5D009AC1F1 /* audbasher in Resources */ = {isa = PBXBuildFile; fileRef = 394C400909DEDC5D009AC1F1 /* audbasher */; };
+		394C418409DF5516009AC1F1 /* dv.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 394C418309DF5516009AC1F1 /* dv.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		3956C7110A08453D00FE63A7 /* psp.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 3956C7100A08453D00FE63A7 /* psp.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		396335260D06514E00D20E27 /* VIDEO_TS.IFO in Resources */ = {isa = PBXBuildFile; fileRef = 396335250D06514E00D20E27 /* VIDEO_TS.IFO */; };
+		39644C190A39181200EB6CC2 /* dvb-mpegtools in Resources */ = {isa = PBXBuildFile; fileRef = 39644C180A39181200EB6CC2 /* dvb-mpegtools */; };
+		39644C5D0A39EF2400EB6CC2 /* COPYING.txt in Resources */ = {isa = PBXBuildFile; fileRef = 39644C5B0A39EF2400EB6CC2 /* COPYING.txt */; };
+		39644C5E0A39EF2400EB6CC2 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 39644C5C0A39EF2400EB6CC2 /* readme.txt */; };
+		396869810D67E981001E0FD6 /* disabler in Resources */ = {isa = PBXBuildFile; fileRef = 396869800D67E981001E0FD6 /* disabler */; };
+		396FC01209CB25BA008AD829 /* qt_export in Resources */ = {isa = PBXBuildFile; fileRef = 396FC01109CB25BA008AD829 /* qt_export */; };
+		396FC01409CB25CD008AD829 /* mp4pass in Resources */ = {isa = PBXBuildFile; fileRef = 396FC01309CB25CD008AD829 /* mp4pass */; };
+		3971152F0931004E00C6C6FA /* buttons.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 3971152E0931004E00C6C6FA /* buttons.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		397201520B656F5000B85906 /* vidinfo.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 397201510B656F5000B85906 /* vidinfo.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		397523ED0B4EB52400743BE1 /* mpgtx in Resources */ = {isa = PBXBuildFile; fileRef = 397523EC0B4EB52400743BE1 /* mpgtx */; };
+		397A7CE70B6E574F00DBBED1 /* play_title in Resources */ = {isa = PBXBuildFile; fileRef = 397A7CE60B6E574F00DBBED1 /* play_title */; };
+		397CCA120C8CB83000A13744 /* ffmpeg-r9226.diff.bz2 in Resources */ = {isa = PBXBuildFile; fileRef = 397CCA110C8CB83000A13744 /* ffmpeg-r9226.diff.bz2 */; };
+		397DFE7F09FBFEC1009DC402 /* xgrid.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 397DFE7E09FBFEC1009DC402 /* xgrid.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39A067E30A05AB1E00D4C708 /* mp4stream in Resources */ = {isa = PBXBuildFile; fileRef = 39A067E20A05AB1E00D4C708 /* mp4stream */; };
+		39A149780A03112D005EA2A1 /* mp4.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 39A149770A03112D005EA2A1 /* mp4.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39A174F20A066AB1002584E3 /* avi.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 39A174F10A066AB1002584E3 /* avi.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39A8F3900A2B9177000ADFF8 /* ffmpeg.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A8F38F0A2B9177000ADFF8 /* ffmpeg.png */; };
+		39A93348090D4E5800EE87A3 /* durfinder in Resources */ = {isa = PBXBuildFile; fileRef = 39A93347090D4E5800EE87A3 /* durfinder */; };
+		39AD7D49092103DC00BC0256 /* main.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 39AD7D48092103DC00BC0256 /* main.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39BB8F900927ED6A0017DCA8 /* remainer in Resources */ = {isa = PBXBuildFile; fileRef = 39BB8F8F0927ED6A0017DCA8 /* remainer */; };
+		39BB906D092825700017DCA8 /* ratiofinder in Resources */ = {isa = PBXBuildFile; fileRef = 39BB906C092825700017DCA8 /* ratiofinder */; };
+		39C63EF20B571A370065C838 /* movinfo in Resources */ = {isa = PBXBuildFile; fileRef = 39C63EF10B571A370065C838 /* movinfo */; };
+		39CA7A250D248EFB002C7F70 /* tccat in Resources */ = {isa = PBXBuildFile; fileRef = 39CA7A240D248EFB002C7F70 /* tccat */; };
+		39CBBA3E090DCE040039A771 /* starterror in Resources */ = {isa = PBXBuildFile; fileRef = 39CBBA3D090DCE040039A771 /* starterror */; };
+		39CEFE94095BAE4900E668B3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39CEFE93095BAE4900E668B3 /* Localizable.strings */; };
+		39CEFE9D095BAE5200E668B3 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 39CEFE9C095BAE5200E668B3 /* MainMenu.nib */; };
+		39CEFEA1095BAE5A00E668B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39CEFEA0095BAE5A00E668B3 /* InfoPlist.strings */; };
+		39DE8A150A06A5D6009D8EE7 /* wmv.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 39DE8A140A06A5D6009D8EE7 /* wmv.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39DE8A540A06AB02009D8EE7 /* flash.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 39DE8A530A06AB02009D8EE7 /* flash.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
+		39E8866909FEC34200023E09 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E8866809FEC34200023E09 /* WebKit.framework */; };
+		39EFCC3C09F6B38E00C3886C /* yuvcorrect in Resources */ = {isa = PBXBuildFile; fileRef = 39EFCC3909F6B38E00C3886C /* yuvcorrect */; };
+		39EFCC3D09F6B38E00C3886C /* y4mtoppm in Resources */ = {isa = PBXBuildFile; fileRef = 39EFCC3A09F6B38E00C3886C /* y4mtoppm */; };
+		39EFCC3E09F6B38E00C3886C /* ppmtoy4m in Resources */ = {isa = PBXBuildFile; fileRef = 39EFCC3B09F6B38E00C3886C /* ppmtoy4m */; };
+		39EFCC4009F6B3A500C3886C /* pnmcrop in Resources */ = {isa = PBXBuildFile; fileRef = 39EFCC3F09F6B3A500C3886C /* pnmcrop */; };
+		847EE28C1036501E00E215DF /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = 847EE28B1036501E00E215DF /* ffmpeg */; };
+		847EE2A71036506000E215DF /* pnmcrop in Resources */ = {isa = PBXBuildFile; fileRef = 847EE2A61036506000E215DF /* pnmcrop */; };
+		847EE2A91036506A00E215DF /* catMovies in Resources */ = {isa = PBXBuildFile; fileRef = 847EE2A81036506A00E215DF /* catMovies */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		39FB39600B45B7CD00F6F9B6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		257572D5072881A4000BE9CA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		257572D6072881A4000BE9CA /* ReduxZero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReduxZero.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		39013D660B24D4E200BC37EC /* Xgrid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Xgrid.png; sourceTree = "<group>"; };
+		3901CA730AFE7C3E00D3C075 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/dvdaudio.nib; sourceTree = "<group>"; };
+		3901CA990AFE7C9A00D3C075 /* lsdvd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = lsdvd; sourceTree = "<group>"; };
+		390235D20914645C0008FFB6 /* Credits.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = Credits.rtfd; sourceTree = "<group>"; };
+		390A79670B6AA59A00C4C2DD /* avimerge */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = avimerge; sourceTree = "<group>"; };
+		390F9F6E0A115E610058CD69 /* mkisofs */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mkisofs; sourceTree = "<group>"; };
+		391BFB040BD5390C00A60DD5 /* flvtool2.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = flvtool2.bundle; sourceTree = "<group>"; };
+		391C950609E33159005CA5F2 /* com.apple.xgrid.controller.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = com.apple.xgrid.controller.plist; sourceTree = "<group>"; };
+		391C951209E33447005CA5F2 /* rzweb.conf */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = rzweb.conf; sourceTree = "<group>"; };
+		392ACFE80BAF5DAA000E922E /* nothing.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = nothing.nib; sourceTree = "<group>"; };
+		392BC68609D761A5008A3186 /* ipod.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ipod.applescript; sourceTree = "<group>"; };
+		392BC69309D76294008A3186 /* snippets.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = snippets.applescript; sourceTree = "<group>"; };
+		392C4B3E0A0C27FF00DABF40 /* dvd.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = dvd.applescript; sourceTree = "<group>"; };
+		392FB23D0B78317900A62B33 /* flattercmd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = flattercmd; sourceTree = "<group>"; };
+		3939615D099B91BE0084C230 /* movtowav */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = movtowav; sourceTree = "<group>"; };
+		393CE78D0A0901AD000D8774 /* mpeg.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = mpeg.applescript; sourceTree = "<group>"; };
+		393CE8170A09359D000D8774 /* dvdauthor */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dvdauthor; sourceTree = "<group>"; };
+		393E46D809168F9500EDAF1B /* fpsfinder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = fpsfinder; sourceTree = "<group>"; };
+		39410117092D5F27001B4F43 /* movtoy4m */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = movtoy4m; sourceTree = "<group>"; };
+		3941017D092D7BC5001B4F43 /* resizer */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; path = resizer; sourceTree = "<group>"; };
+		39419B400B8E03BC00343C58 /* AtomicParsley */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = AtomicParsley; sourceTree = "<group>"; };
+		3942EF8C09E2C0D000DE4F32 /* preview.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = preview.applescript; sourceTree = "<group>"; };
+		394C07400920E72600E1F837 /* tabledrop.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = tabledrop.applescript; sourceTree = "<group>"; };
+		394C400909DEDC5D009AC1F1 /* audbasher */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = audbasher; sourceTree = "<group>"; };
+		394C418309DF5516009AC1F1 /* dv.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = dv.applescript; sourceTree = "<group>"; };
+		3956C7100A08453D00FE63A7 /* psp.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = psp.applescript; sourceTree = "<group>"; };
+		396335250D06514E00D20E27 /* VIDEO_TS.IFO */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIDEO_TS.IFO; sourceTree = "<group>"; };
+		39644C180A39181200EB6CC2 /* dvb-mpegtools */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dvb-mpegtools"; sourceTree = "<group>"; };
+		39644C5B0A39EF2400EB6CC2 /* COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = COPYING.txt; path = "License for included tools/COPYING.txt"; sourceTree = SOURCE_ROOT; };
+		39644C5C0A39EF2400EB6CC2 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = readme.txt; path = "License for included tools/readme.txt"; sourceTree = SOURCE_ROOT; };
+		396869800D67E981001E0FD6 /* disabler */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = disabler; sourceTree = "<group>"; };
+		396FC01109CB25BA008AD829 /* qt_export */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = qt_export; sourceTree = "<group>"; };
+		396FC01309CB25CD008AD829 /* mp4pass */ = {isa = PBXFileReference; lastKnownFileType = file; path = mp4pass; sourceTree = "<group>"; };
+		3971152E0931004E00C6C6FA /* buttons.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = buttons.applescript; sourceTree = "<group>"; };
+		397201510B656F5000B85906 /* vidinfo.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = vidinfo.applescript; sourceTree = "<group>"; };
+		397201BE0B65739200B85906 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/vidinfo.nib; sourceTree = "<group>"; };
+		397523EC0B4EB52400743BE1 /* mpgtx */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mpgtx; sourceTree = "<group>"; };
+		397A7CE60B6E574F00DBBED1 /* play_title */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = play_title; sourceTree = "<group>"; };
+		397CCA110C8CB83000A13744 /* ffmpeg-r9226.diff.bz2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ffmpeg-r9226.diff.bz2"; sourceTree = "<group>"; };
+		397DFE7E09FBFEC1009DC402 /* xgrid.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = xgrid.applescript; sourceTree = "<group>"; };
+		39A014B609EB385200D4D40B /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/loading.html; sourceTree = "<group>"; };
+		39A014B809EB385C00D4D40B /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		39A067E20A05AB1E00D4C708 /* mp4stream */ = {isa = PBXFileReference; lastKnownFileType = file; path = mp4stream; sourceTree = "<group>"; };
+		39A149770A03112D005EA2A1 /* mp4.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = mp4.applescript; sourceTree = "<group>"; };
+		39A174F10A066AB1002584E3 /* avi.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = avi.applescript; sourceTree = "<group>"; };
+		39A8F38F0A2B9177000ADFF8 /* ffmpeg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ffmpeg.png; sourceTree = "<group>"; };
+		39A93347090D4E5800EE87A3 /* durfinder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = durfinder; sourceTree = "<group>"; };
+		39AD7D48092103DC00BC0256 /* main.applescript */ = {isa = PBXFileReference; explicitFileType = sourcecode.applescript; fileEncoding = 4; path = main.applescript; sourceTree = "<group>"; };
+		39BB8F8F0927ED6A0017DCA8 /* remainer */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = remainer; sourceTree = "<group>"; };
+		39BB906C092825700017DCA8 /* ratiofinder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = ratiofinder; sourceTree = "<group>"; };
+		39BDBE730B4977450048EC73 /* advloading.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = advloading.nib; sourceTree = "<group>"; };
+		39C63EF10B571A370065C838 /* movinfo */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = movinfo; sourceTree = "<group>"; };
+		39CA7A240D248EFB002C7F70 /* tccat */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tccat; sourceTree = "<group>"; };
+		39CBBA3D090DCE040039A771 /* starterror */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = starterror; sourceTree = "<group>"; };
+		39CEFE8D095BAE3200E668B3 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		39DE8A140A06A5D6009D8EE7 /* wmv.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = wmv.applescript; sourceTree = "<group>"; };
+		39DE8A530A06AB02009D8EE7 /* flash.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = flash.applescript; sourceTree = "<group>"; };
+		39E8866809FEC34200023E09 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		39EFCC3909F6B38E00C3886C /* yuvcorrect */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = yuvcorrect; sourceTree = "<group>"; };
+		39EFCC3A09F6B38E00C3886C /* y4mtoppm */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = y4mtoppm; sourceTree = "<group>"; };
+		39EFCC3B09F6B38E00C3886C /* ppmtoy4m */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ppmtoy4m; sourceTree = "<group>"; };
+		39EFCC3F09F6B3A500C3886C /* pnmcrop */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = pnmcrop; sourceTree = "<group>"; };
+		65359356078DD41800E8BB2F /* AppleScriptKit.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; name = AppleScriptKit.sdef; path = /System/Library/Frameworks/AppleScriptKit.framework/Versions/A/Resources/AppleScriptKit.sdef; sourceTree = "<absolute>"; };
+		847EE28B1036501E00E215DF /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
+		847EE2A61036506000E215DF /* pnmcrop */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = pnmcrop; sourceTree = "<group>"; };
+		847EE2A81036506A00E215DF /* catMovies */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = catMovies; sourceTree = "<group>"; };
+		DA206CF1015C4E2903C91932 /* AppleScriptKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptKit.framework; path = /System/Library/Frameworks/AppleScriptKit.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		257572CB072881A4000BE9CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				257572CC072881A4000BE9CA /* Cocoa.framework in Frameworks */,
+				257572CD072881A4000BE9CA /* AppleScriptKit.framework in Frameworks */,
+				39E8866909FEC34200023E09 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				39AD7D48092103DC00BC0256 /* main.applescript */,
+				392BC69309D76294008A3186 /* snippets.applescript */,
+				3971152E0931004E00C6C6FA /* buttons.applescript */,
+				392BC68609D761A5008A3186 /* ipod.applescript */,
+				3956C7100A08453D00FE63A7 /* psp.applescript */,
+				394C418309DF5516009AC1F1 /* dv.applescript */,
+				392C4B3E0A0C27FF00DABF40 /* dvd.applescript */,
+				39A174F10A066AB1002584E3 /* avi.applescript */,
+				39A149770A03112D005EA2A1 /* mp4.applescript */,
+				39DE8A140A06A5D6009D8EE7 /* wmv.applescript */,
+				393CE78D0A0901AD000D8774 /* mpeg.applescript */,
+				39DE8A530A06AB02009D8EE7 /* flash.applescript */,
+				3942EF8C09E2C0D000DE4F32 /* preview.applescript */,
+				394C07400920E72600E1F837 /* tabledrop.applescript */,
+				397DFE7E09FBFEC1009DC402 /* xgrid.applescript */,
+				397201510B656F5000B85906 /* vidinfo.applescript */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				39E8866809FEC34200023E09 /* WebKit.framework */,
+				DA206CF1015C4E2903C91932 /* AppleScriptKit.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				257572D6072881A4000BE9CA /* ReduxZero.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* ReduxZero */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Scripts */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				257572D5072881A4000BE9CA /* Info.plist */,
+				390235D20914645C0008FFB6 /* Credits.rtfd */,
+			);
+			name = ReduxZero;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				39CEFE93095BAE4900E668B3 /* Localizable.strings */,
+				391C951209E33447005CA5F2 /* rzweb.conf */,
+				397CCA110C8CB83000A13744 /* ffmpeg-r9226.diff.bz2 */,
+				396FC01309CB25CD008AD829 /* mp4pass */,
+				391BFB040BD5390C00A60DD5 /* flvtool2.bundle */,
+				39A067E20A05AB1E00D4C708 /* mp4stream */,
+				39410117092D5F27001B4F43 /* movtoy4m */,
+				391C950609E33159005CA5F2 /* com.apple.xgrid.controller.plist */,
+				396FC01109CB25BA008AD829 /* qt_export */,
+				390058630B864C73005E28F5 /* loading.html */,
+				39A014B809EB385C00D4D40B /* loading.gif */,
+				392FB23D0B78317900A62B33 /* flattercmd */,
+				39CA7A240D248EFB002C7F70 /* tccat */,
+				396869800D67E981001E0FD6 /* disabler */,
+				3939615D099B91BE0084C230 /* movtowav */,
+				39EFCC3909F6B38E00C3886C /* yuvcorrect */,
+				847EE28B1036501E00E215DF /* ffmpeg */,
+				847EE2A61036506000E215DF /* pnmcrop */,
+				39419B400B8E03BC00343C58 /* AtomicParsley */,
+				39EFCC3A09F6B38E00C3886C /* y4mtoppm */,
+				390A79670B6AA59A00C4C2DD /* avimerge */,
+				39EFCC3B09F6B38E00C3886C /* ppmtoy4m */,
+				396335250D06514E00D20E27 /* VIDEO_TS.IFO */,
+				397A7CE60B6E574F00DBBED1 /* play_title */,
+				397523EC0B4EB52400743BE1 /* mpgtx */,
+				394C400909DEDC5D009AC1F1 /* audbasher */,
+				39EFCC3F09F6B3A500C3886C /* pnmcrop */,
+				847EE2A81036506A00E215DF /* catMovies */,
+				393CE8170A09359D000D8774 /* dvdauthor */,
+				3901CA990AFE7C9A00D3C075 /* lsdvd */,
+				390F9F6E0A115E610058CD69 /* mkisofs */,
+				39C63EF10B571A370065C838 /* movinfo */,
+				39644C180A39181200EB6CC2 /* dvb-mpegtools */,
+				3941017D092D7BC5001B4F43 /* resizer */,
+				39BB8F8F0927ED6A0017DCA8 /* remainer */,
+				39BB906C092825700017DCA8 /* ratiofinder */,
+				393E46D809168F9500EDAF1B /* fpsfinder */,
+				39CBBA3D090DCE040039A771 /* starterror */,
+				39A93347090D4E5800EE87A3 /* durfinder */,
+				39644C5A0A39EF2400EB6CC2 /* License for included tools */,
+				39CEFE9C095BAE5200E668B3 /* MainMenu.nib */,
+				39BDBE730B4977450048EC73 /* advloading.nib */,
+				390058370B864B40005E28F5 /* dvdaudio.nib */,
+				39CEFEA0095BAE5A00E668B3 /* InfoPlist.strings */,
+				65359356078DD41800E8BB2F /* AppleScriptKit.sdef */,
+				390058540B864BD1005E28F5 /* vidinfo.nib */,
+				39A8F38F0A2B9177000ADFF8 /* ffmpeg.png */,
+				39013D660B24D4E200BC37EC /* Xgrid.png */,
+				392ACFE80BAF5DAA000E922E /* nothing.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		39644C5A0A39EF2400EB6CC2 /* License for included tools */ = {
+			isa = PBXGroup;
+			children = (
+				39644C5B0A39EF2400EB6CC2 /* COPYING.txt */,
+				39644C5C0A39EF2400EB6CC2 /* readme.txt */,
+			);
+			includeInIndex = 0;
+			path = "License for included tools";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		257572C3072881A4000BE9CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		257572C2072881A4000BE9CA /* ReduxZero */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3917A644090B215E009A2790 /* Build configuration list for PBXNativeTarget "ReduxZero" */;
+			buildPhases = (
+				257572C3072881A4000BE9CA /* Headers */,
+				257572C4072881A4000BE9CA /* AppleScript */,
+				257572C6072881A4000BE9CA /* Resources */,
+				257572C9072881A4000BE9CA /* Sources */,
+				257572CB072881A4000BE9CA /* Frameworks */,
+				39FB39600B45B7CD00F6F9B6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReduxZero;
+			productInstallPath = "$(HOME)/Applications";
+			productName = ReduxZero;
+			productReference = 257572D6072881A4000BE9CA /* ReduxZero.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 3917A648090B215E009A2790 /* Build configuration list for PBXProject "reduxzero" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Spanish,
+				Dutch,
+				Italian,
+				Portuguese,
+				Swedish,
+				zh_TW,
+				Polish,
+				Finnish,
+				Danish,
+				es_MX,
+				es_ES,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* ReduxZero */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				257572C2072881A4000BE9CA /* ReduxZero */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		257572C6072881A4000BE9CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39CEFE9D095BAE5200E668B3 /* MainMenu.nib in Resources */,
+				39CEFEA1095BAE5A00E668B3 /* InfoPlist.strings in Resources */,
+				39A93348090D4E5800EE87A3 /* durfinder in Resources */,
+				39CBBA3E090DCE040039A771 /* starterror in Resources */,
+				390235D30914645C0008FFB6 /* Credits.rtfd in Resources */,
+				393E46D909168F9500EDAF1B /* fpsfinder in Resources */,
+				39BB8F900927ED6A0017DCA8 /* remainer in Resources */,
+				39BB906D092825700017DCA8 /* ratiofinder in Resources */,
+				39410119092D5F27001B4F43 /* movtoy4m in Resources */,
+				3941017E092D7BC5001B4F43 /* resizer in Resources */,
+				39CEFE94095BAE4900E668B3 /* Localizable.strings in Resources */,
+				3939615E099B91BE0084C230 /* movtowav in Resources */,
+				396FC01209CB25BA008AD829 /* qt_export in Resources */,
+				396FC01409CB25CD008AD829 /* mp4pass in Resources */,
+				394C400A09DEDC5D009AC1F1 /* audbasher in Resources */,
+				391C950709E33159005CA5F2 /* com.apple.xgrid.controller.plist in Resources */,
+				391C951309E33447005CA5F2 /* rzweb.conf in Resources */,
+				39EFCC3C09F6B38E00C3886C /* yuvcorrect in Resources */,
+				39EFCC3D09F6B38E00C3886C /* y4mtoppm in Resources */,
+				39EFCC3E09F6B38E00C3886C /* ppmtoy4m in Resources */,
+				39EFCC4009F6B3A500C3886C /* pnmcrop in Resources */,
+				39A067E30A05AB1E00D4C708 /* mp4stream in Resources */,
+				393CE8180A09359D000D8774 /* dvdauthor in Resources */,
+				390F9F6F0A115E610058CD69 /* mkisofs in Resources */,
+				39A8F3900A2B9177000ADFF8 /* ffmpeg.png in Resources */,
+				39644C190A39181200EB6CC2 /* dvb-mpegtools in Resources */,
+				39644C5D0A39EF2400EB6CC2 /* COPYING.txt in Resources */,
+				39644C5E0A39EF2400EB6CC2 /* readme.txt in Resources */,
+				390058380B864B40005E28F5 /* dvdaudio.nib in Resources */,
+				3901CA9A0AFE7C9A00D3C075 /* lsdvd in Resources */,
+				39013D670B24D4E200BC37EC /* Xgrid.png in Resources */,
+				3900584C0B864B80005E28F5 /* advloading.nib in Resources */,
+				397523ED0B4EB52400743BE1 /* mpgtx in Resources */,
+				39C63EF20B571A370065C838 /* movinfo in Resources */,
+				390058550B864BD1005E28F5 /* vidinfo.nib in Resources */,
+				390A79680B6AA59A00C4C2DD /* avimerge in Resources */,
+				397A7CE70B6E574F00DBBED1 /* play_title in Resources */,
+				392FB23E0B78317900A62B33 /* flattercmd in Resources */,
+				39419B410B8E03BC00343C58 /* AtomicParsley in Resources */,
+				391BFB050BD5390C00A60DD5 /* flvtool2.bundle in Resources */,
+				397CCA120C8CB83000A13744 /* ffmpeg-r9226.diff.bz2 in Resources */,
+				396335260D06514E00D20E27 /* VIDEO_TS.IFO in Resources */,
+				39CA7A250D248EFB002C7F70 /* tccat in Resources */,
+				396869810D67E981001E0FD6 /* disabler in Resources */,
+				847EE28C1036501E00E215DF /* ffmpeg in Resources */,
+				847EE2A71036506000E215DF /* pnmcrop in Resources */,
+				847EE2A91036506A00E215DF /* catMovies in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		257572C9072881A4000BE9CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				257572CA072881A4000BE9CA /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		390058370B864B40005E28F5 /* dvdaudio.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3901CA730AFE7C3E00D3C075 /* English */,
+			);
+			name = dvdaudio.nib;
+			sourceTree = "<group>";
+		};
+		390058540B864BD1005E28F5 /* vidinfo.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				397201BE0B65739200B85906 /* English */,
+			);
+			name = vidinfo.nib;
+			sourceTree = "<group>";
+		};
+		390058630B864C73005E28F5 /* loading.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39A014B609EB385200D4D40B /* English */,
+			);
+			name = loading.html;
+			sourceTree = "<group>";
+		};
+		39CEFE93095BAE4900E668B3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39CEFE8D095BAE3200E668B3 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		39CEFE9C095BAE5200E668B3 /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		39CEFEA0095BAE5A00E668B3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3917A645090B215E009A2790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = ReduxZero;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		3917A646090B215E009A2790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_OSAFLAGS = "-x";
+				PREBINDING = NO;
+				PRODUCT_NAME = ReduxZero;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		3917A647090B215E009A2790 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = ReduxZero;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		3917A649090B215E009A2790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_MODEL_TUNING = "";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_UNROLL_LOOPS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		3917A64A090B215E009A2790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = "";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_UNROLL_LOOPS = YES;
+				GENERATE_PKGINFO_FILE = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = NO;
+			};
+			name = Release;
+		};
+		3917A64B090B215E009A2790 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_MODEL_TUNING = "";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_UNROLL_LOOPS = YES;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3917A644090B215E009A2790 /* Build configuration list for PBXNativeTarget "ReduxZero" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3917A645090B215E009A2790 /* Debug */,
+				3917A646090B215E009A2790 /* Release */,
+				3917A647090B215E009A2790 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		3917A648090B215E009A2790 /* Build configuration list for PBXProject "reduxzero" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3917A649090B215E009A2790 /* Debug */,
+				3917A64A090B215E009A2790 /* Release */,
+				3917A64B090B215E009A2790 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

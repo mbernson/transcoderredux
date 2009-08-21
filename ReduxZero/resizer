@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Resizer
+# AppleScript Studio Resizing blows!
+
+if /bin/test -f /tmp/reduxzero_sizer
+	then
+	exit 0
+	fi
+/usr/bin/touch /tmp/reduxzero_sizer
+/bin/sleep 2
+if [ `/bin/ps -auxww | /usr/bin/grep ReduxZero | /usr/bin/grep -v resizer | /usr/bin/grep -cv grep` -lt 1 ]
+	then
+	exit 0
+	fi
+/usr/bin/osascript -l AppleScript -e 'tell application "ReduxZero" to update window "ReduxZero"'
+/bin/rm /tmp/reduxzero_sizer
+exit 0
+

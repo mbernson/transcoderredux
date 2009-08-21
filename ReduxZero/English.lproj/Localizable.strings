@@ -1,0 +1,121 @@
+/* End of conversion */
+"complete" = "Conversion Complete!";
+"ShowLog" = "Show Log";
+"someerrors" = "There were some errors during operation. Not all videos were converted.
+Click 'Show Log' for detailed troubleshooting information.";
+"allerrors" = "Errors occurred that stopped all conversions.
+Click 'Show Log' for detailed troubleshooting information.";
+
+
+/* Cancel */
+"stopping" = "Stopping...";
+
+
+/* Errors */
+"noreal" = "RealVideo files aren't supported. Sorry. Skipping...";
+"noflash8" = "Flash 8 video is unsupported. Sorry.";
+"videotserror" = "VIDEO_TS folders can't be directly converted. Sorry.";
+"nofolders" = "Folders themselves can't be converted. Drag the contents instead.";
+"encryptedvob" = "Encrypted DVD files are not supported. Sorry.";
+"fileerror" = " cannot be converted.";
+"unknownformat" = " is in an unknown format.";
+"2passerror" = "Two Pass encoding cannot be used for this clip or this format.";
+"nofiles" = "Um...You need to have files in the list before this program is useful.";
+"ffmpegcrash" = "ffmpeg crashed. Ouch.";
+"errorprevented" = "An error prevented ";
+"conversionfromstarting" = "'s conversion from starting. See below for the explanation: ";
+"cancelsheet" = "Oh well. It was fun while it lasted...";
+
+
+/* Pulldowns */
+"forceqt" = "QuickTime Decoding";
+"forceff" = "ffmpeg Decoding";
+"quitwhendone" = "Quit ReduxZero";
+"shutdownwhendone" = "Shut Down Computer";
+"sleepwhendone" = "Set Computer to Sleep";
+"original" = "Original";
+"stereo" = "Stereo";
+"mono" = "Mono";
+"openenclosing" = "Open Enclosing Folder";
+
+
+/* OK Buttons */
+"inadequacyok" = "Inadequacy";
+"concernok" = "Concern";
+"Denial" = "Denial";
+"Acceptance" = "Acceptance";
+"cancelok" = "Nostalgia";
+
+
+/* Download Words */
+"downloadingserverlist" = "Downloading server list...";
+"downloadfailed" = "Download failed.";
+"retrying" = "Retrying...";
+"downloading" = "Downloading...";
+"downloadcomplete" = "Downloading...Complete!";
+
+
+/* Bar Words */
+"badestimate1" = "...looks like I lied. File ";
+"badestimate2" = " will be done when it's done...";
+"remainingforfile" = " remaining for File ";
+"minute" = " minute";
+"convertingfile" = "Converting File ";
+"about" = "About";
+"finishing" = "Finishing File ";
+"plural" = "s";
+"lessthan" = "Less than";
+"alittleover" = "A little over";
+"starting" = "Starting File ";
+"mpegcheck" = "lied about its duration. Please wait...";
+"submitting" = "Submitting File ";
+"togrid" = " to the XGrid...";
+"takeabreak" = "Taking a little break...";
+"xgridfilecomplete" = " completed.";
+"xgridresubmit" = "An agent failed. Resubmitting File ";
+"xgridresubmitnoconnection" = "An agent failed to connect. Resubmitting file ";
+"xgridwaiting" = "Waiting for completed files...";
+"out of" = " out of ";
+"authordvd" = "Authoring DVD (this may take a while)...";
+"authordvd2" = "Authoring DVD. Creating disc structure...";
+"imagedvd" = "Creating DVD image...";
+"burndvd" = "Burning DVD...";
+"pass1" = "Doing first pass of video (this may take a while)...";
+"calculatingtime" = "Calculating total running time...";
+"startingfile" = "Starting File ";
+"prepaud" = "Preparing Audio (this may take a while...) for File ";
+"file" = "File ";
+"of" = " of ";
+"step" = "Step ";
+"maintitle" = "Detecting main DVD title...";
+
+/* Other Alerts */
+"saveloc" = "Choose a destination location for your converted file(s).";
+"bigdvd" = "You're converting more than 18 hours for a single DVD. That's crazy and might not look very good. Are you sure you want to do this?";
+"serialsuccess" = "Thank you for purchasing ReduxZero!";
+"dvdspacealert1" = "Insufficient Drive Space";
+"dvdspacealert2" = "Your hard drive may not have enough space to create this DVD. Please make sure there is at least 12GB free on your main hard drive before continuing.";
+"Cancel" = "Cancel";
+"doitanyway" = "Do It Anyway";
+"itunesdrm" = "Protected iTunes files cannot be converted. Sorry.";
+"madatapple" = "Get Mad At Apple";
+"namestitched" = "Please give a name for your stitched file:";
+"singlefilexgrid1" = "Only one file in Xgrid job list";
+"singlefilexgrid2" = "Unless you use another machine as your Xgrid processing Agent, it is useless to enable Xgrid Encoding with only one file in the list.";
+"novlcxgrid" = "Can't use VLC Decoding with Xgrid. Sorry.";
+"loading" = "Loading...";
+"saving" = "Saving...";
+"cropping" = "Cropping...";
+"autodownloadfail" = "The automatic download failed. Click OK to start a manual download.";
+"settingssave" = "Choose the name and location of the settings file.";
+"quitwarn1" = "Are you sure you want to quit?";
+"quitwarn2" = "If a conversion is in process, it will be cancelled.";
+"xgridfileerror1" = "Xgrid File Error";
+"xgridfileerror2" = "The Xgrid agent did not return the finished file expected here: ";
+"elapsedtime" = "Elapsed Time: ";
+
+
+"resettitle" = "Reset ReduxZero?";
+"resettext" = "This will remove all preference files, bringing ReduxZero back to 'Factory Defaults'.
+THIS IS NOT A STANDARD TROUBLESHOOTING STEP!
+Only do this if you absolutely must, or if you are instructed to.";

@@ -1,0 +1,158 @@
+#!/bin/sh
+
+##### FPSFinder
+# This script checks for certain
+# PAL/NTSC/FILM/BatshitInsane framerates
+# and compensates for anything above 30fps
+# with something mathmatically happier.
+
+## QuickTime knows its own file's framerate a lot better than ffmpeg.
+## ffmpeg sometimes thinks files are like, 600fps. Stupid ffmpeg.  
+tmpdir=$1
+movfps=$2
+ismov=$3
+
+## realfps is the full FPS as given by ffmpeg.
+## currfps drops it down to a whole number for easier processing.
+realfps=`cat /tmp/rztemp/$tmpdir/reduxzero_dur | grep ,Video, | head -1 | awk -F , '{print $11}'`
+currfps=`echo $realfps | awk -F . '{print $1}'`
+
+if [ "$ismov" == "mov" ]
+	then
+		if [ "$currfps" == "inf" ]
+			then
+			echo "$movfps"
+			exit 0
+		fi
+		if [ "$movfps" -le 1 ]
+			then
+			echo "ntsc"
+			exit 0
+		fi
+		if [ "$movfps" -gt 30 ]
+			then
+			echo "ntsc"
+			exit 0
+		fi
+		if [ "$movfps" == "30" ]
+			then
+			echo "ntsc"
+			exit 0
+		fi
+		if [ "$realfps" == "23.98" ]
+			then
+			echo "ntsc-film"
+			exit 0
+		fi
+		if [ "$movfps" == "23.98" ]
+			then
+			echo "ntsc-film"
+			exit 0
+		fi
+		if [ "$realfps" == "23,98" ]
+			then
+			echo "ntsc-film"
+			exit 0
+		fi
+		if [ "$movfps" == "23,98" ]
+			then
+			echo "ntsc-film"
+			exit 0
+		fi
+		if [ "$realfps" == "29,97" ]
+			then
+			echo "ntsc"
+			exit 0
+		fi
+		if [ "$movfps" == "29,97" ]
+			then
+			echo "ntsc"
+			exit 0
+		fi
+	echo "$movfps"
+	exit 0
+fi
+
+
+## Common non-good framerates.
+## They'll get dropped to mathematically
+## happier numbers - hopefully correctly-divisible ones.
+if [ "$currfps" == "nan" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == " nan" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "nan " ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "600" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "59" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "60" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "50" ]
+	then
+	echo "pal"
+	exit 0
+fi
+if [ "$realfps" == 24.39 ]
+	then
+	echo "ntsc-film"
+	exit 0
+fi
+if [ "$currfps" -gt 30 ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$realfps" == "2.00" ]
+	then
+	echo "ntsc-film"
+	exit 0
+fi
+if [ "$realfps" == " 2.00" ]
+	then
+	echo "ntsc-film"
+	exit 0
+fi
+if [ "$currfps" == 25 ]
+	then
+	echo "pal"
+	exit 0
+fi
+if [ "$realfps" == "25.00" ]
+	then
+	echo "pal"
+	exit 0
+fi
+if [ "$currfps" -le 1 ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+if [ "$currfps" == "" ]
+	then
+	echo "ntsc"
+	exit 0
+fi
+
+## ...if the original framerate's good, then use it.
+echo $realfps
+exit 0
