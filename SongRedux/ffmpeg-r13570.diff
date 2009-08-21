@@ -1,0 +1,417 @@
+Index: ffmpeg.c
+===================================================================
+--- ffmpeg.c	(revision 13570)
++++ ffmpeg.c	(working copy)
+@@ -3420,7 +3420,7 @@
+ {
+     av_log_set_callback(log_callback_help);
+     printf("usage: ffmpeg [[infile options] -i infile]... {[outfile options] outfile}...\n"
+-           "Hyper fast Audio and Video encoder\n");
++           "Hyper fast Audio and Video encoder\nSongRedux 1.03 build. Do not combine with alcohol.\nMay cause drowsiness.\n");
+     printf("\n");
+     show_help_options(options, "Main options:\n",
+                       OPT_EXPERT | OPT_AUDIO | OPT_VIDEO, 0);
+@@ -3448,6 +3448,7 @@
+     av_opt_show(avctx_opts[0], NULL);
+     av_opt_show(avformat_opts, NULL);
+     av_opt_show(sws_opts, NULL);
++        printf("\nSongRedux 1.03 build. Do not combine with alcohol.\nMay cause drowsiness.\n");
+ }
+ 
+ static void opt_target(const char *arg)
+@@ -3785,7 +3786,7 @@
+ 
+     /* file converter / grab */
+     if (nb_output_files <= 0) {
+-        fprintf(stderr, "Must supply at least one output file\n");
++//        fprintf(stderr, "Must supply at least one output file\n");
+         av_exit(1);
+     }
+ 
+Index: libavcodec/utils.c
+===================================================================
+--- libavcodec/utils.c	(revision 13570)
++++ libavcodec/utils.c	(working copy)
+@@ -443,7 +443,7 @@
+ {"delay", NULL, OFFSET(delay), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX},
+ {"qcomp", "video quantizer scale compression (VBR)", OFFSET(qcompress), FF_OPT_TYPE_FLOAT, 0.5, FLT_MIN, FLT_MAX, V|E},
+ {"qblur", "video quantizer scale blur (VBR)", OFFSET(qblur), FF_OPT_TYPE_FLOAT, 0.5, FLT_MIN, FLT_MAX, V|E},
+-{"qmin", "min video quantizer scale (VBR)", OFFSET(qmin), FF_OPT_TYPE_INT, 2, 1, 51, V|E},
++{"qmin", "min video quantizer scale (VBR)", OFFSET(qmin), FF_OPT_TYPE_INT, 1, 1, 51, V|E},
+ {"qmax", "max video quantizer scale (VBR)", OFFSET(qmax), FF_OPT_TYPE_INT, 31, 1, 51, V|E},
+ {"qdiff", "max difference between the quantizer scale (VBR)", OFFSET(max_qdiff), FF_OPT_TYPE_INT, 3, INT_MIN, INT_MAX, V|E},
+ {"bf", "use 'frames' B frames", OFFSET(max_b_frames), FF_OPT_TYPE_INT, DEFAULT, 0, FF_MAX_B_FRAMES, V|E},
+@@ -626,7 +626,7 @@
+ {"rd", "use best rate distortion", 0, FF_OPT_TYPE_CONST, FF_MB_DECISION_RD, INT_MIN, INT_MAX, V|E, "mbd"},
+ {"stream_codec_tag", NULL, OFFSET(stream_codec_tag), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX},
+ {"sc_threshold", "scene change threshold", OFFSET(scenechange_threshold), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+-{"lmin", "min lagrange factor (VBR)", OFFSET(lmin), FF_OPT_TYPE_INT,  2*FF_QP2LAMBDA, 0, INT_MAX, V|E},
++{"lmin", "min lagrange factor (VBR)", OFFSET(lmin), FF_OPT_TYPE_INT,  1*FF_QP2LAMBDA, 0, INT_MAX, V|E},
+ {"lmax", "max lagrange factor (VBR)", OFFSET(lmax), FF_OPT_TYPE_INT, 31*FF_QP2LAMBDA, 0, INT_MAX, V|E},
+ {"nr", "noise reduction", OFFSET(noise_reduction), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+ {"rc_init_occupancy", "number of bits which should be loaded into the rc buffer before decoding starts", OFFSET(rc_initial_buffer_occupancy), FF_OPT_TYPE_INT, DEFAULT, INT_MIN, INT_MAX, V|E},
+@@ -1067,16 +1067,18 @@
+     switch(enc->codec_type) {
+     case CODEC_TYPE_VIDEO:
+         snprintf(buf, buf_size,
+-                 "Video: %s%s",
+-                 codec_name, enc->mb_decision ? " (hq)" : "");
++                 ",Video,%s%s",
++                 codec_name, enc->mb_decision ? "" : "");
+         if (enc->pix_fmt != PIX_FMT_NONE) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %s",
++                     ",%s",
+                      avcodec_get_pix_fmt_name(enc->pix_fmt));
+         }
++            else
++            snprintf(NULL, NULL, ",");
+         if (enc->width) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %dx%d",
++                     ",%d,%d",
+                      enc->width, enc->height);
+             if (enc->sample_aspect_ratio.num) {
+                 av_reduce(&display_aspect_ratio.num, &display_aspect_ratio.den,
+@@ -1084,14 +1086,14 @@
+                           enc->height*enc->sample_aspect_ratio.den,
+                           1024*1024);
+                 snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                         " [PAR %d:%d DAR %d:%d]",
++                     ",%d:%d,%d:%d",
+                          enc->sample_aspect_ratio.num, enc->sample_aspect_ratio.den,
+                          display_aspect_ratio.num, display_aspect_ratio.den);
+             }
+             if(av_log_get_level() >= AV_LOG_DEBUG){
+                 int g= ff_gcd(enc->time_base.num, enc->time_base.den);
+                 snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %d/%d",
++                     ",%d,%d",
+                      enc->time_base.num/g, enc->time_base.den/g);
+             }
+         }
+@@ -1103,17 +1105,17 @@
+         break;
+     case CODEC_TYPE_AUDIO:
+         snprintf(buf, buf_size,
+-                 "Audio: %s",
++                 ",Audio,%s",
+                  codec_name);
+         switch (enc->channels) {
+             case 1:
+-                strcpy(channels_str, "mono");
++                strcpy(channels_str, "1");
+                 break;
+             case 2:
+-                strcpy(channels_str, "stereo");
++                strcpy(channels_str, "2");
+                 break;
+             case 6:
+-                strcpy(channels_str, "5:1");
++                strcpy(channels_str, "5.1");
+                 break;
+             default:
+                 snprintf(channels_str, sizeof(channels_str), "%d channels", enc->channels);
+@@ -1121,7 +1123,7 @@
+         }
+         if (enc->sample_rate) {
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                     ", %d Hz, %s",
++                     ",%d,%s",
+                      enc->sample_rate,
+                      channels_str);
+         }
+@@ -1158,6 +1160,10 @@
+             bitrate = enc->bit_rate;
+             break;
+         }
++    if (bitrate != 0) {
++        snprintf(buf + strlen(buf), buf_size - strlen(buf),
++                 ",%d", bitrate / 1000);
++    }
+         break;
+     case CODEC_TYPE_DATA:
+         snprintf(buf, buf_size, "Data: %s", codec_name);
+@@ -1183,10 +1189,10 @@
+             snprintf(buf + strlen(buf), buf_size - strlen(buf),
+                      ", pass 2");
+     }
+-    if (bitrate != 0) {
+-        snprintf(buf + strlen(buf), buf_size - strlen(buf),
+-                 ", %d kb/s", bitrate / 1000);
+-    }
++//    if (bitrate != 0) {
++//        snprintf(buf + strlen(buf), buf_size - strlen(buf),
++//                 ", %d kb/s", bitrate / 1000);
++//    }
+ }
+ 
+ unsigned avcodec_version( void )
+Index: cmdutils.c
+===================================================================
+--- cmdutils.c	(revision 13570)
++++ cmdutils.c	(working copy)
+@@ -200,19 +200,17 @@
+ {
+     fprintf(stderr, "%s version " FFMPEG_VERSION ", Copyright (c) %d-2008 Fabrice Bellard, et al.\n",
+             program_name, program_birth_year);
+-    fprintf(stderr, "  configuration: " FFMPEG_CONFIGURATION "\n");
+-    fprintf(stderr, "  libavutil version: " AV_STRINGIFY(LIBAVUTIL_VERSION) "\n");
+-    fprintf(stderr, "  libavcodec version: " AV_STRINGIFY(LIBAVCODEC_VERSION) "\n");
+-    fprintf(stderr, "  libavformat version: " AV_STRINGIFY(LIBAVFORMAT_VERSION) "\n");
+-    fprintf(stderr, "  libavdevice version: " AV_STRINGIFY(LIBAVDEVICE_VERSION) "\n");
+-#if ENABLE_AVFILTER
++
++//    fprintf(stderr, "  configuration: " FFMPEG_CONFIGURATION "\n");
++    fprintf(stderr, "  libavutil: " AV_STRINGIFY(LIBAVUTIL_VERSION));
++    fprintf(stderr, "  libavcodec: " AV_STRINGIFY(LIBAVCODEC_VERSION));
++    fprintf(stderr, "  libavformat: " AV_STRINGIFY(LIBAVFORMAT_VERSION));
+     fprintf(stderr, "  libavfilter version: " AV_STRINGIFY(LIBAVFILTER_VERSION) "\n");
+-#endif
+-    fprintf(stderr, "  built on " __DATE__ " " __TIME__);
+-#ifdef __GNUC__
+-    fprintf(stderr, ", gcc: " __VERSION__ "\n");
++    fprintf(stderr, "  built: " __DATE__ " " __TIME__);
++#ifdef __i386__
++    fprintf(stderr, ", gcc: " __VERSION__ ", i386\n");
+ #else
+-    fprintf(stderr, ", using a non-gcc compiler\n");
++    fprintf(stderr, ", gcc: " __VERSION__ ", ppc\n");
+ #endif
+ }
+ 
+Index: libavformat/utils.c
+===================================================================
+--- libavformat/utils.c	(revision 13570)
++++ libavformat/utils.c	(working copy)
+@@ -2657,22 +2657,26 @@
+     AVStream *st = ic->streams[i];
+     int g = ff_gcd(st->time_base.num, st->time_base.den);
+     avcodec_string(buf, sizeof(buf), st->codec, is_output);
+-    av_log(NULL, AV_LOG_INFO, "    Stream #%d.%d", index, i);
++    av_log(NULL, AV_LOG_INFO, "%d.%d,", index, i);
+     /* the pid is an important information, so we display it */
+     /* XXX: add a generic system */
+     if (flags & AVFMT_SHOW_IDS)
+-        av_log(NULL, AV_LOG_INFO, "[0x%x]", st->id);
++        av_log(NULL, AV_LOG_INFO, ",dvd%x", st->id);
++    else
++        av_log(NULL, AV_LOG_INFO, ",");
+     if (strlen(st->language) > 0)
+-        av_log(NULL, AV_LOG_INFO, "(%s)", st->language);
+-    av_log(NULL, AV_LOG_DEBUG, ", %d/%d", st->time_base.num/g, st->time_base.den/g);
+-    av_log(NULL, AV_LOG_INFO, ": %s", buf);
++        av_log(NULL, AV_LOG_INFO, ",%s", st->language);
++    else
++        av_log(NULL, AV_LOG_INFO, ",");
++    av_log(NULL, AV_LOG_DEBUG, ",%d/%d", st->time_base.num/g, st->time_base.den/g);
++    av_log(NULL, AV_LOG_INFO, ",%s", buf);
+     if(st->codec->codec_type == CODEC_TYPE_VIDEO){
+         if(st->r_frame_rate.den && st->r_frame_rate.num)
+-            av_log(NULL, AV_LOG_INFO, ", %5.2f tb(r)", av_q2d(st->r_frame_rate));
++            av_log(NULL, AV_LOG_INFO, ",%5.2f", av_q2d(st->r_frame_rate));
+ /*      else if(st->time_base.den && st->time_base.num)
+             av_log(NULL, AV_LOG_INFO, ", %5.2f tb(m)", 1/av_q2d(st->time_base));*/
+         else
+-            av_log(NULL, AV_LOG_INFO, ", %5.2f tb(c)", 1/av_q2d(st->codec->time_base));
++            av_log(NULL, AV_LOG_INFO, ",%5.2f", 1/av_q2d(st->codec->time_base));
+     }
+     av_log(NULL, AV_LOG_INFO, "\n");
+ }
+@@ -2690,36 +2694,38 @@
+             is_output ? ic->oformat->name : ic->iformat->name,
+             is_output ? "to" : "from", url);
+     if (!is_output) {
+-        av_log(NULL, AV_LOG_INFO, "  Duration: ");
++        av_log(NULL, AV_LOG_INFO, "Duration-");
+         if (ic->duration != AV_NOPTS_VALUE) {
+             int hours, mins, secs, us;
+             secs = ic->duration / AV_TIME_BASE;
+             us = ic->duration % AV_TIME_BASE;
+-            mins = secs / 60;
+-            secs %= 60;
+-            hours = mins / 60;
+-            mins %= 60;
+-            av_log(NULL, AV_LOG_INFO, "%02d:%02d:%02d.%02d", hours, mins, secs,
+-                   (100 * us) / AV_TIME_BASE);
++//            mins = secs / 60;
++//            secs %= 60;
++//            hours = mins / 60;
++//            mins %= 60;
++//            av_log(NULL, AV_LOG_INFO, "%02d:%02d:%02d.%01d", hours, mins, secs,
++//                   (10 * us) / AV_TIME_BASE);
++            av_log(NULL, AV_LOG_INFO, "%02d\n", secs);
+         } else {
+-            av_log(NULL, AV_LOG_INFO, "N/A");
++            av_log(NULL, AV_LOG_INFO, "NA\n");
+         }
+         if (ic->start_time != AV_NOPTS_VALUE) {
+             int secs, us;
+-            av_log(NULL, AV_LOG_INFO, ", start: ");
++            av_log(NULL, AV_LOG_INFO, "start-");
+             secs = ic->start_time / AV_TIME_BASE;
+             us = ic->start_time % AV_TIME_BASE;
+-            av_log(NULL, AV_LOG_INFO, "%d.%06d",
++            av_log(NULL, AV_LOG_INFO, "%d.%06d\n",
+                    secs, (int)av_rescale(us, 1000000, AV_TIME_BASE));
+         }
+-        av_log(NULL, AV_LOG_INFO, ", bitrate: ");
++        av_log(NULL, AV_LOG_INFO, "bitrate-");
+         if (ic->bit_rate) {
+-            av_log(NULL, AV_LOG_INFO,"%d kb/s", ic->bit_rate / 1000);
++            av_log(NULL, AV_LOG_INFO,"%d\n", ic->bit_rate / 1000);
+         } else {
+-            av_log(NULL, AV_LOG_INFO, "N/A");
++            av_log(NULL, AV_LOG_INFO, "NA\n");
+         }
+         av_log(NULL, AV_LOG_INFO, "\n");
+     }
++
+     if(ic->nb_programs) {
+         int j, k;
+         for(j=0; j<ic->nb_programs; j++) {
+Index: libavformat/movenc.c
+===================================================================
+--- libavformat/movenc.c	(revision 13570)
++++ libavformat/movenc.c	(working copy)
+@@ -37,7 +37,7 @@
+ #define MODE_PSP 3 // example working PSP command line:
+ // ffmpeg -i testinput.avi  -f psp -r 14.985 -s 320x240 -b 768 -ar 24000 -ab 32 M4V00001.MP4
+ #define MODE_3G2 4
+-#define MODE_IPOD 5
++#define MODE_ANANTSCDVD 5
+ 
+ typedef struct MOVIentry {
+     unsigned int flags, size;
+@@ -55,6 +55,7 @@
+     long        timescale;
+     long        time;
+     int64_t     trackDuration;
++    long        sampleDuration;
+     long        sampleCount;
+     long        sampleSize;
+     int         hasKeyframes;
+@@ -506,7 +507,7 @@
+ static int mov_find_codec_tag(AVFormatContext *s, MOVTrack *track)
+ {
+     int tag = track->enc->codec_tag;
+-    if (track->mode == MODE_MP4 || track->mode == MODE_PSP || track->mode == MODE_IPOD) {
++    if (track->mode == MODE_MP4 || track->mode == MODE_PSP || track->mode == MODE_ANANTSCDVD) {
+         if (!codec_get_tag(ff_mp4_obj_type, track->enc->codec_id))
+             return 0;
+         if (track->enc->codec_id == CODEC_ID_H264)           tag = MKTAG('a','v','c','1');
+@@ -621,12 +622,21 @@
+         mov_write_d263_tag(pb);
+     else if(track->enc->codec_id == CODEC_ID_SVQ3)
+         mov_write_svq3_tag(pb);
++        if (track->mode != MODE_PSP)
++           if (track->enc->width > 320)
++             if (track->enc->width <= 640) {
++ 			put_be32(pb, 0x1C); /* size ... reports as 28 in mp4box! */
++ 			put_tag(pb, "uuid");
++ 			put_be32(pb, 0x6B6840F2);
++ 			put_be32(pb, 0x5F244FC5);
++ 			put_be32(pb, 0xBA39A51B);
++ 			put_be32(pb, 0xCF0323F3);
++ 			put_be32(pb, 0x0000);
++ 	}
+     else if(track->enc->codec_id == CODEC_ID_DNXHD)
+         mov_write_avid_tag(pb, track);
+     else if(track->enc->codec_id == CODEC_ID_H264) {
+         mov_write_avcc_tag(pb, track);
+-        if(track->mode == MODE_IPOD)
+-            mov_write_uuid_tag_ipod(pb);
+     } else if(track->vosLen > 0)
+         mov_write_glbl_tag(pb, track);
+ 
+@@ -904,6 +914,9 @@
+     put_be16(pb, 0); /* reserved */
+ 
+     /* Matrix structure */
++    if (track->mode == MODE_ANANTSCDVD)
++    put_be32(pb, 0x00015555); /* reserved */
++    else
+     put_be32(pb, 0x00010000); /* reserved */
+     put_be32(pb, 0x0); /* reserved */
+     put_be32(pb, 0x0); /* reserved */
+@@ -917,7 +930,8 @@
+     /* Track width and height, for visual only */
+     if(track->enc->codec_type == CODEC_TYPE_VIDEO) {
+         double sample_aspect_ratio = av_q2d(track->enc->sample_aspect_ratio);
+-        if(!sample_aspect_ratio) sample_aspect_ratio = 1;
++        sample_aspect_ratio = 1;
++        if( !sample_aspect_ratio ) sample_aspect_ratio = 1;
+         put_be32(pb, sample_aspect_ratio * track->enc->width*0x10000);
+         put_be32(pb, track->enc->height*0x10000);
+     }
+@@ -1385,8 +1399,10 @@
+         put_tag(pb, "3g2a");
+     else if (mov->mode == MODE_PSP)
+         put_tag(pb, "MSNV");
+-    else if (mov->mode == MODE_MP4 || mov->mode == MODE_IPOD)
++    else if (mov->mode == MODE_MP4)
+         put_tag(pb, "isom");
++    else if ( mov->mode == MODE_ANANTSCDVD )
++        put_tag(pb, "isom");
+     else
+         put_tag(pb, "qt  ");
+ 
+@@ -1398,8 +1414,10 @@
+         put_tag(pb, "3g2a");
+     else if (mov->mode == MODE_PSP)
+         put_tag(pb, "MSNV");
+-    else if (mov->mode == MODE_MP4 || mov->mode == MODE_IPOD)
++    else if (mov->mode == MODE_MP4)
+         put_tag(pb, "mp41");
++    else if ( mov->mode == MODE_ANANTSCDVD )
++        put_tag(pb, "mp41");
+     else
+         put_tag(pb, "qt  ");
+ }
+@@ -1484,7 +1502,7 @@
+         else if (!strcmp("3g2", s->oformat->name)) mov->mode = MODE_3G2;
+         else if (!strcmp("mov", s->oformat->name)) mov->mode = MODE_MOV;
+         else if (!strcmp("psp", s->oformat->name)) mov->mode = MODE_PSP;
+-        else if (!strcmp("ipod",s->oformat->name)) mov->mode = MODE_IPOD;
++        else if (!strcmp("anantscdvd", s->oformat->name)) mov->mode = MODE_ANANTSCDVD;
+ 
+         mov_write_ftyp_tag(pb,s);
+         if (mov->mode == MODE_PSP) {
+@@ -1510,6 +1528,7 @@
+         }
+         if(st->codec->codec_type == CODEC_TYPE_VIDEO){
+             track->timescale = st->codec->time_base.den;
++            track->sampleDuration = st->codec->time_base.num;
+             av_set_pts_info(st, 64, 1, st->codec->time_base.den);
+             if (track->mode == MODE_MOV && track->timescale > 100000)
+                 av_log(s, AV_LOG_WARNING,
+@@ -1518,6 +1537,7 @@
+                        "or choose different container.\n");
+         }else if(st->codec->codec_type == CODEC_TYPE_AUDIO){
+             track->timescale = st->codec->sample_rate;
++            track->sampleDuration = st->codec->frame_size;
+             av_set_pts_info(st, 64, 1, st->codec->sample_rate);
+             if(!st->codec->frame_size){
+                 av_log(s, AV_LOG_ERROR, "track %d: codec frame size is not set\n", i);
+@@ -1679,6 +1699,21 @@
+     .codec_tag = (const AVCodecTag*[]){codec_movvideo_tags, codec_movaudio_tags, 0},
+ };
+ #endif
++#ifdef CONFIG_ANANTSCDVD_MUXER
++AVOutputFormat anantscdvd_muxer = {
++    "anantscdvd",
++    "mp4 format",
++    NULL,
++    "mp4,m4a",
++    sizeof(MOVContext),
++    CODEC_ID_AAC,
++    CODEC_ID_MPEG4,
++    mov_write_header,
++    mov_write_packet,
++    mov_write_trailer,
++    .flags = AVFMT_GLOBALHEADER,
++};
++#endif
+ #ifdef CONFIG_TGP_MUXER
+ AVOutputFormat tgp_muxer = {
+     "3gp",
