@@ -1,0 +1,92 @@
+GENERAL RECIPES
+
+SIZING
+When a video file has to be resized during conversion (for a device with different resolution needs), FilmRedux will try (using the ratiofinder function) to use one of three aspect ratios automatically:
+4:3
+16:9
+2.35:1
+
+Files slightly off will have their aspect slightly modified in order to hit these common numbers.
+In the case where a file does not need to be resized for compatibility with the target, its original resolution is used without any aspect constraining.
+
+For MPEG videos, and other situations where the video is stored at a different aspect ratio than it's meant to be displayed at (commonly "Anamorphic"), FilmRedux follows this rule whenever possible (and when not creating anamorphic video itself):
+*Keep vertical resolution intact, expanding horizontally to match the intended aspect ratio.*
+
+For 16:9 content stored at ~4:3 resolution (say, 16:9 stored as 720x480), this method does not destroy any information from the original file - extra columns of pixels are interpolated horizontally to reach the intended aspect ratio.
+QuickTime Player and some other conversion tools keep the horizontal resolution the same, and constrict the vertical resolution to match the intended ratio. Doing this requires that picture information be destroyed in order to crush the video into the smaller resolution. If the output format being used does not need a specific resolution, always try to preserve as much of the original video signal as possible.
+For 4:3 material stored at 720x480, it's entirely possible to expand vertically (~720x540), keeping with the concept of preserving all resolution. This is problematic or irrelevant if the original material was interlaced and special care isn't taken to try to inverse telecine (and is impossible for 50/60 field video), so vertical resolution is never changed.
+...of course, the best option (if available or practical) is to convert to the exact same resolution as the original, with anamorphic flags and all.
+
+For portable devices, the converted file resolution should match the screen resolution for at least one of its two axes:
+Take a 480x320 (3:2 aspect) iPhone:
+4:3 - 432x320 - vertical resolution matches
+16:9 - 480x272 - horizontal resolution matches
+Whenever possible, try to keep to a multiple of 16 when converting. Your codec will thank you.
+
+
+COMPRESSION
+(for simplicity's sake, the following recipe information is based on a MPEG-4 iPod workflow)
+In compression, the ever-important give and take is File Size vs. Quality. A higher target file size allows for a higher bitrate, which allows for better quality. Likewise, compressing a video at a lower quality level will result in a smaller file size.
+"Scene releases" and other such nefarious goodies are designed to fit a specific number of files on a CD or DVD. Quality is dictated by this strict space consideration. For most formats, especially iPods and other portable devices, there's no specific file size that is most important - whatever fits, fits. In these cases, with File Size no longer the constraining factor, FilmRedux and PunyVid use another method to convert - keeping the Quality constant, thereby accepting a varying File Size.
+
+Video quality can be chosen via "quantizers" when compressing (using the qmin command in ffmpeg/mencoder). A higher quantizer level means lower perceptible quality, means lower bitrate, means smaller file size. in FilmRedux/ReduxZero, a specific quantizer is chosen based on the Quality slider as the conversion's "quality ceiling", meaning the video quality will never look better than that quantizer level creates.
+Doing this causes the bitrate to vary wildly, depending on scene complexity: A talking head or PowerPoint presentation will need much less bitrate than a handheld-camera zebra shootout. Bitrate won't be wasted on making one scene "perfect" quality, when "ok" quality will do just as nicely.
+Remember, we all listen to lossy MP3s anyway, and very few of us seem to mind. ...but we DO mind when we can't fit more stuff on our iPod.
+
+With this strategy, one episode of a specific TV show could end up at 100MB, while another could up at 75MB.
+For personal example, I had a 800MB Apple WWDC video from iTunes, which compressed down to 70MB. The video track actually took less bitrate than the audio track. No program's generic bitrate setting would possibly consider this as a "normal" video, and if you compress by quality, you won't have to worry about special cases.
+
+Each quality setting also has a bitrate value entered, but this is used as a "bitrate ceiling" to prevent the bitrate from spiking over the selected device's comfort zone. Higher quantizers are then used to stay near or below this bitrate ceiling.
+
+The "Go Nuts" quality setting uses the highest bitrate the target device can handle, with no quality constraints.
+Also, setting a custom bitrate or size on the Advanced panel will throw out any quality constraints as well -- if the user has a specific size/bitrate in mind, then use exactly that...even if you think you can do better.
+
+
+FILMREDUX INTERNAL WORKFLOW
+This will all be vague and paraphrasing since I don't have the code in front of me right now, and there's a lot of stuff that happens…
+
+Launching:
+buttons.scpt receives the launched action.
+The main window is hidden at first.
+The current OS is discovered (Tiger or Leopard or Snow Leopard?), and the interface is modified to fit.
+The window preferences are loaded and the windows are resized and placed as they were before.
+When everything is ready and in the right place, the main window (and Preferences window if it was open before) is made visible.
+
+File dragged into queue:
+table.scpt receives the action and list of files, and goes through each file to find its specs via mediainfo.
+mediainfo returns a whole bunch of information, but at this point, only the runtime is pulled and calculated to hour:minute:second format.
+The rest of the info is then mashed into a hidden table cell for later use. Its status is changed to frready
+Repeat as necessary for each file.
+Afterwards, the howmany function from buttons.scpt is called to update the interface.
+
+Clicking Start:
+main.scpt receives the action and starts the progress bar.
+The current epoch-based time is discovered, and a folder is created in the tmp directory to hold the batch's files.
+The format to be converted to is discovered.
+The number of concurrent conversions allowed is determined.
+**ENTER THE LOOP**
+The first not-yet-converted file in the list is discovered, and its status is changed to frworking)
+buttons.scpt is handed the file's full path and tasked with figuring out the file's name, as well as its containing path, etc.
+The video's specs handled by media info during their initial import are retrieved and populated as individual variables.
+The generic interface widgets of the Advanced panel are all discovered.
+The current epoch-based time is discovered and smashed into a hidden table cell for the specific file, and used for time estimation and as a UUID of sorts. 
+The script for the specific format conversion (say, ipod.scpt) is then triggered.
+The interface widgets (Quality slider, etc) are discovered, and runs ratiofinder.scpt to figure out the correct size to be used for the specific video, and the selected device and quality settings.
+The full ffmpeg/mencoder command is constructed from the file's name and path, the Advanced panel's settings, the main window settings, and other workflow considerations.
+main.scpt then runs the ffmpeg/mencoder command in the background, logging to a specific file.
+-
+If the maximum number of current conversions has not been reached, then find the first not-yet-converted file in the list, and repeat.
+Otherwise, update the status of each currently-converting file.
+If a file has finished, update its status (frdone) and run the format script's finishing actions.
+Otherwise:
+The current epoch-based time is discovered and compared to the starting times recovered from the hidden table cells for each file.
+Math is done. This is all difficult and confusing.
+Basically, each file's duration is compared to the duration so-far-converted, and a percentage is calculated. This is used for updating the pie graph for each file.
+Then, the collective so-far-converted duration for all the files is compared to the full collective duration for all files, and that is compared to the difference between the starting time and the current time. The progress bar is updated based on this, as is the general Time Remaining number.
+-
+If the maximum number of current conversions has not been reached, then find the first not-yet-converted file in the list, and repeat.
+Otherwise, update the status of each currently-converting file.
+-
+When there are no more files to convert and no more conversions in progress, **EXIT THE LOOP**
+Finishing actions are done (stitching, tagging, etc), and all log files are concatenated, and the final conversion time is calculated.
+Done!

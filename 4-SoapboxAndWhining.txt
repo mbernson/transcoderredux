@@ -1,0 +1,22 @@
+FILMREDUX FORK OBSERVATIONS
+
+Original file specs in Queue:
+For most users, the only thing they care about the original file's specs is "they're not right for what I want". Who cares that your DivX file was originally 624x352 if it's going be resized to an iPhone or DVD? ...or that it's even DivX to begin with? The goal is to convert the file to Something Else.
+
+Multiple conversion formats or multiple Stitch batches in same Queue:
+The file Queue should be seen as the batch itself, and the settings below should reflect what will happen to every file. If a user wants to convert to multiple formats, or create multiple Stitched batches at once, FilmRedux can spawn another process through the "New Queue" option to give the user a fresh window/queue to work with.
+
+Main window function additions:
+The main window is as complicated as it should be. Any additional workflows, etc (like XGrid) should be added to the "Custom Workflows/Destinations" collapsable section — hidden from the user by default.
+
+I received many requests for things like separate conversion settings per file. Doing this would complicate the ability to simply drag in a list of files and click "Start" - each file would need to have settings applied separately (or "filling down" like a spreadsheet. don't make a video converter into a spreadsheet).
+
+
+THINGS FILMREDUX SHOULDN'T DO
+A successful project gets a lot of feature requests. Some great ideas, some toxic. Toxic requests are those that pull the program away from its intended purpose for someone's potential vague convenience.
+Below are some toxic request examples.
+
+Advanced tag editing - Any sort of extensive tagging should not be handled at compression time, and especially not if your goal is to convert batches of files quickly.
+Video timeline editing - I got this request too much. Go buy iMovie.
+I know I had a ton of ideas for this section, and now I can only think of two. Oh well. It's late and I'm tired.
+Good night.

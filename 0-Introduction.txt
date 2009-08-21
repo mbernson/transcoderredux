@@ -1,0 +1,45 @@
+This guide was written to explain design decisions made, and spell out somewhat confusing parts of the conversion recipes used in ReduxZero and FilmRedux in the hopes that whoever takes the reigns of the projects understands what it means and how it operates, rather than start from scratch, negating the experience gained over the past three years.
+It can also be viewed as the incoherent ramblings of a crazy old man who has no idea what he's doing. Your call.
+
+
+INTRODUCTION
+
+FilmRedux's earliest predecessor started life based on a prediction/promise:
+"Very soon, someone will make a simple, free program that will convert any type of video format to one that the new video iPod can play."
+
+Apple's own "Convert to iPod" option was painfully slow (random multi-pass), and had absolutely no settings for quality, bitrate, etc., not to mention poor compatibility with the Formats At Large out there in the world. Apple's avoidance of DivX and lackluster support of MPEG-1/2 made transcoding from non-Apple worlds infuriating.
+
+I started making this promise within days of the new iPod's announcement. After my local Apple Store got the first demo units in, I realized they were capable of so much more than Apple led us to believe.
+Apple only advertised 480x480 resolution for MPEG-4 videos, but I discovered video at any resolution that had the same overall number of pixels (later found to be the number of macroblocks) would play. This was fascinating. As a TV-out device, its potential was higher than anyone thought.
+After a couple weeks, no program was available that hit the sweet spot of compatibility, ease of use, or price. So I figured I would try making it myself. Somehow. I didn't know Cocoa, and was only beginning to do neat stuff with AppleScript...
+
+iSquint (now PunyVid) was born. At first, it could only convert one file at a time - no queue, no multithreaded encoding. Feature suggestions came in fast and furious, and I fulfilled as many as I could (JIT-learning the whole way).
+
+VisualHub (now ReduxZero) was created as a "fork" of sorts from iSquint, creating a better workflow structure and expanding the number of output devices and formats (over time) from one, to over 20. The "Easy Settings" box from iSquint was expanded into tabs, one per major device/format.
+As time passed, and more and more video devices were released, the iSquint-based organic design started showing serious capacity issues. ...and a poor policy for localizations made any UI change, major or minor, a tremendous endeavor. I started planning a new interface to solve this problem, and to also help bring about many new and desired features.
+
+AudialHub (now SongRedux) was written completely from scratch as a test of the new interface, code improvements, and workflows planned for VisualHub 2 (now FilmRedux). The new interface, ancillary features and glue code would be shared between the two projects.
+
+Though VisualHub 2 was never released, its base as FilmRedux is in good shape (iPod/iPhone conversions work), and in very good condition to expand. Unfortunately, AppleScript Studio projects can only be edited in Leopard and below, so any development would have to be on an older OS, or ported to Cocoa - either via the AppleScript Cocoa Bridge or Objective-C.
+
+SIMPLICITY
+
+Before we begin, some very important design philosophies I've learned...
+UNIX/Linux:
+A program should only do one thing, and do that one thing well.
+Apple:
+1: Program complexity should be irrelevant to the average user whenever possible.
+2: Do not sacrifice ease-of-usability to 95% of users for the feature benefit of the other 5%.
+3: Programs can still be very extensible. Power users will spend the time to dig for the "good stuff".
+4: How you see software is very different from a casual user's point of view.
+
+With this in mind, ReduxZero and FilmRedux's "mission statement" of sorts was:
+"Convert batches of video files to a different format, quickly and easily".
+
+Every design decision (well, most) was made with this in mind. The number of clicks to accomplish a task, and the number of settings necessary to edit was kept to a minimum. For advanced users, a cornucopia of radio buttons and checkboxes was available in a separate panel, completely unnecessary for regular program use. The average user should have very little reason to venture to the Advanced panel - in fact, it's discouraged unless the user knows exactly what they need to do.
+
+In any program, Feature Bloat is an unyielding temptation. A large number feature requests lead away from a program's mission statement, and can possibly force the program in a direction it was not intended.
+
+When adding a feature, consider the following:
+Will this feature either enrich all users' experience? Or, at least will the addition not interfere with the ease-of-use? 
+

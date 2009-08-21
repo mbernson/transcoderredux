@@ -1,0 +1,118 @@
+
+--WORKFLOWS--
+
+ITUNES WORKFLOW
+There are four main resolutions/constraints for iPod video compression:
+1: 640x480 MPEG-4 under 2500kbps, up to 30fps. Width must be under 720, height must be under 480. If height is near 480, width must be under 640.
+2: Screen-resolution 320x240 Baseline profile H.264 under 768kbps, up to 30fps. Width and height must both be under 320 and 240.
+3: iPod 5G: 640x480 "Low Complexity" Baseline profile H.264 under 1500kbps, up to 30fps. Width and height must both be under 640 and 480.
+4: Later iPods: 640x480 Baseline H.264 under 2500kbps, up to 30fps. Width must be under 720, height must be under 480. If height is near 480, width must be under 640.
+-You can't do 320x240 over 768kbps. You CAN do 322x242 over 768kbps, though. There is (or at least was) a hard limit for 320x240 material.
+-I discovered and explained what Apple meant with their "Low Complexity" profile here: http://lists.mplayerhq.hu/pipermail/ffmpeg-devel/2006-September/015930.html (you can push 2 reference frames ok, but any more are troublesome.)
+
+There are three main resolutions/constraints for Apple TV video compression
+1: 640x480 MPEG-4 under 2500kbps, up to 30fps. Width must be under 720, height must be under 480. If height is near 480, width must be under 640.
+2: 960x540 Main profile H.264 under 5000kbps, up to 30fps. Width must be under 960, height must be under 540.
+3: 1280x720 Main profile H.264 under 5000kbps, up to 25fps. Width must be under 1280, height must be under 720.
+-Apple's specs limit full 1280x720 to 24fps, but 25 also makes it through iTunes and plays nicely.
+-Keep in mind Apple's view of Main Profile is limited to CAVLC (not CABAC) and only one B-frame. Matroska videos acquired online very rarely follow these limitations, and their video track cannot be passed through to an MP4 with success.
+
+The bitrate numbers here are for the file's average. Bitrate can spike (responsibly) over these amounts.
+
+When "iPhone" is the selected format, the "Tiny" and "Low" presets change to "EDGE" and "3G"
+EDGE and 3G create files that will progressively download over their respective networks in realtime.
+
+FilmRedux and ReduxZero decide which of these constraints to use depending on the Quality level chosen and the device targeted.
+For iPods, ReduxZero will use the 640x480-related presets when High or Go Nuts are selected, and the 320x240 preset for any other.
+
+After conversion, if a file was under 150MB, AtomicParsley was run to quickly remux/flatten (FastStart) files.
+The reason for this was to make sure any files compressed with the iTunes presets would play immediately if hosted on a website (which was quite often, actually). The downside to doing this was that doing any major tagging exercises (like adding artwork, etc) required that iTunes remux the entire file. For a 3GB .mp4, this takes a Long Time.
+The 150GB threshold was arbitrarily chosen as a good cutoff between "good internet size" and long remuxes in iTunes.
+
+The Apple TV has the ability to pass AC3 (Dolby Digital) data to a capable receiver for proper decoding of 5.1 surround sound. It does not, however, have the ability to decode AC3 (or DTS for that matter) and downsample for stereo output.
+For QuickTime files, the Apple TV recognizes AC3 data with an "ac-3" audio atom. For MP4 files, check the work the HandBrake team has put into AC3-in-MP4.
+One of the last releases of VisualHub introduced dual-audio files. Meaning, one video track, and two audio tracks - one stereo AAC, one surround AC3. I accomplished this by modifying Johan's movmux tool (disabler) to properly construct a .mov file to the Apple TV's liking from a h264/ac3 .mov file and a stereo AAC .m4a file.
+Because of channel-order problems with ffmpeg at the time, re-encoding AC3 wasn't a viable option, so only proper AC3 audio tracks could be used and passed through.
+
+
+PSP WORKFLOW
+There are two main resolutions/constraints for PSP video compression, as of mid-2008:
+1: 320x240 Baseline profile H.264 or MPEG-4 under 30fps. Any resolution can be used as long as the width and height multiplied is under 76,800 pixels.
+2: 480x272 Mail profile H.264 under 30fps. Must be EXACTLY 480x272. Use padding for other aspect ratios.
+-The PSP's limits keep changing at Sony's whim from firmware to firmware. The hardware in the PSP is capable of much more, but that capability is reserved for UMDs.
+
+Later firmwares support a folder named VIDEO at the root level of a memory stick. Other firmwares support other stuff. Leave it to Sony to screw up nice hardware with a terrible implementation.
+
+"Make Thumbnail" creates a small JPEG .THM thumbnail upon completion of the conversion.
+
+
+DV WORKFLOW
+DV video has different resolutions for NTSC and PAL. In FilmRedux, local format is determined automatically based on time zone. in ReduxZero, it's a manual setting.
+For example, NTSC DV is 720x480 (slightly anamorphic. corrected to proper 4:3 for display). 
+"Force Anamorphic 16:9" puts an anamorphic flag in the video stream to display the video as 16:9, much like DVDs do.
+"Ready for Final Cut" creates a QuickTime file (rather than a raw DV file) with a different styled audio track that Final Cut Pro accepted without rendering.
+
+
+DVD WORKFLOW
+DVD video has different resolutions for NTSC and PAL. In FilmRedux, local format is determined automatically based on time zone. in ReduxZero, it's a manual setting.
+NTSC DVD resolutions:
+720x480 (4:3 or 16:9) - "Standard" quality
+704x480 (4:3) - not used by VisualHub/ReduxZero
+352x480 (4:3) - "Low" quality
+352x240 (4:3) - "Tiny" quality
+
+For NTSC, there are two valid framerates: 29.97fps, and 24fps (technically 23.976).
+Videos at 24fps need to have special pulldown flags throughout the video stream, which ffmpeg is not able to do. Therefore, ReduxZero converts all NTSC DVDs at 29.97fps.
+
+If "Author as DVD" is not checked, .VOB files are created at the resolution matching the Quality slider, at sane quality/bitrate levels.
+If "Author as DVD" IS checked, the running time of every file in the queue is discovered to arrive at a proper bitrate.
+One of VisualHub's headline features was the ability to fit up to 18 hours of video on a single DVD. To do this at acceptable quality levels (since we have a specific, finite size constraint, therefore we should use a specific bitrate), one of the resolutions above was used depending on the amount of video to be converted in the batch. In almost all cases, 720x480 at crap bitrate will look perceptibly worse than 352x480 at the same bitrate. So…
+Under 4ish hours: 720x480
+Over 4ish but under 8ish hours: 352x480 (widescreen material letterboxed) 
+Over 8ish hours: 352x240 (widescreen material letterboxed) 
+Dual-layer discs use an extended but similar structure.
+
+After conversion, the .VOB files are fed to dvdauthor, which begins to create a VIDEO_TS structure. The completed VIDEO_TS folder is then passed to mkisofs to create an .iso disk image.
+For simplicity's sake, no menu is created. Files play one after another, separated as chapters. Playback behavior is just like an audio CD.
+My goal with FilmRedux was to programatically create a simple menu using dvdauthor and some automated image creation programs.
+
+If "Burn When Done" is checked, hdiutil is used to burn the iso.
+
+
+AVI WORKFLOW
+AVI files are created with MPEG-4 Advanced Simple Profile video, with a FourCC of "DX50" (DivX 5) and MP3 audio for best compatibility with all devices/software.
+Special Profiles:
+Home Theater 720x480 max (single-slice only) - passes for DivX Home Theater
+Portable 640x480 max (single-slice only) - passes for DivX Portable
+Simple - uses Simple Profile instead of Advanced Simple Profile
+Best Windows Compatibility - uses MSMPEG4v2 video. This should play on Windows without special drivers.
+Wii - Uses MJPEG video and PCM audio for playback on the Wii's Photo Channel
+
+
+MP4 WORKFLOW
+MP4 files are created either MPEG-4 Simple Profile or H.264 Main Profile video with Stereo AAC audio.
+The 56K Quality level creates a file that can be progressively-downloaded or streamed by a dialup modem.
+"RTSP Streaming" hints the file for random-access streaming.
+
+
+WMV WORKFLOW
+WMV files are created with WMV8 video Stereo WMA audio.
+The most common WMV video format is WMV9, which ffmpeg cannot create. WMV8 will play on all computers, and some devices. As of mid-2008, some players had trouble with ffmpeg-created WMV files, causing stuttering, pausing, or garbled artifacts from time to time. To cut down on this, a very low GOP is used (about 4 frames).
+
+
+MPEG WORKFLOW
+MPEG video usually has different resolutions for NTSC and PAL. In FilmRedux, local format is determined automatically based on time zone. in ReduxZero, it's a manual setting.
+Profiles:
+VCD - 352x240 (NTSC) MPEG-1 at 1150kbps. Uses a hard-coded ffmpeg preset.
+SVCD - 480x480 (NTSC) MPEG-2 at various bitrates.
+CVD - 352x480 (NTSC) MPEG-2 at various bitrates.
+TiVo - Various resolution MPEG-2, meeting TiVo's constraints: http://forums.tivo.com/pe/action/forums/displaythread?postID=10387025&ie=x#e10387025
+Transport Stream - .ts MPEG-2
+720p - .ts MPEG-2 constrained to ATSC 1280x720p60
+1080i - .ts MPEG-2 constrained to ATSC 1920x1080i60
+
+
+FLASH WORKFLOW
+FLV or SWF files are created with FLV (H263/Sorenson Spark) video Stereo MP3 audio.
+SWF files auto-play, and auto-loop. The SWF format is limited to 16,000 frames.
+FLV files need a FLV player to work in a web browser, but can provide unlimited playback time, and custom controls.

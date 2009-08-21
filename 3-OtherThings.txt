@@ -1,0 +1,67 @@
+ADVANCED PANEL
+
+AUTO CROP
+In ReduxZero, AutoCropping is done with an unholy alliance of ffmpeg, yuvcorrect, and pnmcrop. ffmpeg creates a single frame from the input video, sends it to yuvcorrect, which turns down brightness and increases contrast. pnmcrop then determines where the black borders are, if any.
+FilmRedux uses mplayer/mencoder's built-in rolling average AutoCrop feature over the course of 30 seconds or so of video.
+
+DEINTERLACING
+In ReduxZero, deinterlacing deletes every other horizontal line in the input file (this is the limit of ffmpeg's deinterlacing commands)
+In FilmRedux, there are multiple deinterlace settings, thanks to mencoder:
+1: None
+2: Fast - same as ReduxZero
+3: Adaptive - only deinterlaces parts of the source that need it - others keep full resolution.
+4: Inverse Telecine - Turns film-based 60i material back to its original 24p
+
+ONE-OFFS
+In both SongRedux and FilmRedux, a One-Offs panel is available. One-Offs are settings that are generally only useful if you're working with one file at a time, instead of a batch.
+Trim lets the user set a start and end point for conversion.
+Tagging is available in SongRedux, but is not connected in FilmRedux.
+Subtitles doesn't work at all.
+
+PLAYGROUND
+In FilmRedux, the Playground tab on the Advanced panel was envisioned to hold things that cannot be "guaranteed" to work, or are rarely useful for the majority of videos.
+Examples:
+Speed up/slow down video
+Grayscale
+Passthrough original audio/video
+
+INFO
+The Info tab displays all information about the selected file as grabbed by mediainfo (ffmpeg for ReduxZero) in a more friendly manner.
+
+
+
+OTHER FEATURES
+
+STITCHING
+Stitching, simply put, is combining multiple files into one, end to end.
+In SongRedux, this is done by converting all files to uncompressed WAV, then converting the result to the actual intended format.
+In ReduxZero, this is done by converting all files separately to their intended format, then concatenating them in a format specific way.
+MP4 files are turned into a QuickTime reference movie containing each video, then remuxed to MP4.
+AVI files are stitched with avimerge.
+Raw DV files are simply concatenated with cat
+MPEG files are either simply concatenated, or with mpgtx, depending on the desired output format
+Other formats cannot be stitched with ReduxZero.
+
+XGRID
+I wrote a hell of a lot about Xgrid support three years ago on the Xgrid mailing list:
+http://lists.apple.com/archives/xgrid-users/2006/Jun/msg00053.html
+Since then, my WebDAV connection scheme broke under Leopard (xgridagentd is no longer able to mount filesystems), and I never got around to supporting Apache 2, since that still wouldn't solve the WebDAV/Leopard client issue.
+I had figured out a proof-of-concept solution for all versions of Mac OS X, but never began to implement it:
+1: Switch to FTP for transfers. I had found a lightweight ftp server that could run in userland and dealt with >4GB files
+2: Stream files that can be streamed (MPEG, AVI), instead of copying in their entirety first
+
+This takes care of the two major limitations of the WebDAV approach.
+For morbid curiosity, here's the command I used to prove the connection:
+xgrid -h localhost -job run /bin/sh -c '/usr/bin/ftp ftp://carl.local:2121/mencoder ; chmod 700 mencoder ; /usr/bin/ftp ftp://carl.local:2121/carfall.wmv ; ./mencoder carfall.wmv -ovc lavc -oac lavc -lavcopts vcodec=mpeg4:acodec=libmp3lame:abitrate=64 -o done.avi ; /usr/bin/ftp -u ftp://carl.local:2121/yes.avi done.avi ; exit 0'
+
+NEW QUEUE
+SongRedux and FilmRedux both have the ability to spawn off new processes and run multiple concurrent conversions. This means people don't have to wait for one queue to finish before starting another one. It also means you can get conversions to multiple formats running at the same time, and just walk away.
+
+ASSEMBLY LINE MODE
+SongRedux and FilmRedux both have "Assembly Line Mode". This puts the program into a state where it is always waiting for new files, and will spring to action as soon as something new is added to the queue.
+This is useful if you have a Folder Action set to throw a file to the program and do an immediate conversion. It's also nice if you're getting files to convert throughout the day. Set once, add many.
+
+PREVIEW
+In ReduxZero, ffmpeg is used to output a single frame using the settings, and it's displayed in a WebKit view. If "Show Compression" is enabled, one second of the video is converted, and then the final frame from that is displayed.
+In SongRedux, ffmpeg is used to output something like 10 seconds using the selected settings (but as a WAV file), and it's loaded via QTKit. If "Show Compression" is enabled, the file is converted to the selected format, and that is then converted to a WAV file and loaded via QTKit (if it's not directly compatible with QuickTime, like Ogg or FLAC).
+
